@@ -9,7 +9,12 @@
   "repository": "https://github.com/Nezhdetov/quiz-learner.git",
   "author": "Gyokan Syuleymanov",
   "license": "MIT",
+  "engines": {
+    "node": "8.9.4"
+  },
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^5.0.7"
   }
 }
