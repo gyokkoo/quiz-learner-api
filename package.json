@@ -1,0 +1,15 @@
+{
+  "name": "quiz-learner",
+  "version": "1.0.0",
+  "description": "Quiz learner server side project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": "https://github.com/Nezhdetov/quiz-learner.git",
+  "author": "Gyokan Syuleymanov",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
