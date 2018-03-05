@@ -32,13 +32,6 @@ let userSchema = new mongoose.Schema({
     min: [0, 'Age must be between 0 and 120'],
     max: [120, 'Age must be between 0 and 120']
   },
-  gender: {
-    type: mongoose.Schema.Types.String,
-    enum: {
-      values: ['Male', 'Female'],
-      message: 'Gender should be either "Male" or "Female".'
-    }
-  },
   roles: [{ type: mongoose.Schema.Types.String }],
   votes: { type: mongoose.Schema.Types.Number, default: 0 }
 })
@@ -77,7 +70,6 @@ module.exports.seedAdminUser = () => {
       firstName: 'Admin',
       lastName: 'Adminov',
       age: 19,
-      gender: 'Male',
       roles: ['Admin']
     }).then(admin => {
       console.log(`Admin: ${admin.username} seeded successfully`)
