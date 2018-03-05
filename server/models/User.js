@@ -79,8 +79,8 @@ module.exports.seedAdminUser = () => {
       age: 19,
       gender: 'Male',
       roles: ['Admin']
+    }).then(admin => {
+      console.log(`Admin: ${admin.username} seeded successfully`)
     })
-
-    console.log('Admin user is seeded')
   })
 }
