@@ -8,7 +8,7 @@ module.exports = () => {
       if (!user) {
         return done(null, false)
       }
-      if (!user.authenticate(passport)) {
+      if (!user.authenticate(password)) {
         return done(null, false)
       }
       return done(null, user)
@@ -26,6 +26,7 @@ module.exports = () => {
       if (!user) {
         return done(null, false)
       }
+      return done(null, user)
     })
   })
 }

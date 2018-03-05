@@ -9,8 +9,18 @@
   <div class="container">
     <ul class="menu">
       <li><a href="/">Home</a></li>
+      <span>|</span>
+      {{#if currentUser}}
+        <li>{{currentUser.username}}</li>
+      {{else}}
+        <li><a href="/users/register">Register</a></li>
+      {{/if}}
+      <span>|</span>
       <li><a href="/about">About</a></li>
     </ul>
+    {{#if globalError}}
+      <h3>{{globalError}}</h3>
+    {{/if}}
     {{{body}}}
   </div>
 </body>
