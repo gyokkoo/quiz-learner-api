@@ -4,7 +4,8 @@
   "description": "Quiz learner server side project",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "watch": "nodemon index.js"
   },
   "repository": "https://github.com/Nezhdetov/quiz-learner.git",
   "author": "Gyokan Syuleymanov",
@@ -21,5 +22,9 @@
     "mongoose": "^5.0.7",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.0",
+    "nodemon": "^1.17.1"
   }
 }

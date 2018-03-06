@@ -27,20 +27,50 @@ module.exports = {
         req.logIn(user, (err, user) => {
           if (err) {
             res.locals.globalError = err
+            res.status(200).send({ message: 'Wrong credentials!' })
             res.render('users/register', user)
-            return res.status(200).send({ message: 'Wrong credentials!' })
+            return
           }
 
           res.redirect('/')
           res.status(200).end()
         })
       }).catch(error => {
-        res.status(500).send({ message: error })
+        res.locals.globalError = error
+        // res.status(500).send({ message: error })
       })
+  },
+  loginGet: (req, res) => {
+    res.render('users/login')
+  },
+  loginPost: (req, res) => {
+    let userData = req.body
+    User.findOne({username: userData.username}).then(user => {
+      if (!user || !user.authenticate(userData.password)) {
+        res.locals.globalError = 'Wrong credentials!'
+        res.status(401).send({ message: 'Wrong credentials!' });
+        res.render('users/login')
+        return
+      }
+
+      req.logIn(user, (err, user) => {
+        if (err) {
+          res.locals.globalError = err
+          res.status(401).send({ message: err });
+          res.render('users/login')
+          return
+        }
+
+        res.status(200).send(req.user);
+      })
+    }).catch(error => {
+      res.locals.globalError = error
+    })
   },
   logout: (req, res) => {
     req.logout()
+    res.status(200);
     res.redirect('/')
-    res.status(200).end();
+    res.end()
   }
 }

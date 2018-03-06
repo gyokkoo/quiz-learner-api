@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const passport = require('passport')
 const handlebars = require('express-handlebars')
+const logger = require('morgan')
 
 module.exports = (app) => {
   app.engine('handlebars', handlebars({
@@ -23,6 +24,8 @@ module.exports = (app) => {
   app.use(passport.initialize())
   app.use(passport.session())
 
+  app.use(logger('dev'))
+  
   app.use((req, res, next) => {
     if (req.user) {
       res.locals.currentUser = req.user
