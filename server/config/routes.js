@@ -6,6 +6,7 @@ module.exports = (app) => {
 
   app.get('/users/register', controllers.users.registerGet)
   app.post('/users/register', controllers.users.registerPost)
+  app.post('/users/logout', controllers.users.logout)
 
   app.all('*', (req, res) => {
     res.status(404)

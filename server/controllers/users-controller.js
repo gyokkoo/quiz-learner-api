@@ -22,19 +22,25 @@ module.exports = {
     }
 
     console.log(userData)
-    User.create(userData).then(user => {
-      req.logIn(user, (err, user) => {
-        if (err) {
-          res.locals.globalError = err
-          res.render('users/register', user)
-          return res.status(200).send({ message: 'Wrong credentials!' })
-        }
+    User.create(userData)
+      .then(user => {
+        req.logIn(user, (err, user) => {
+          if (err) {
+            res.locals.globalError = err
+            res.render('users/register', user)
+            return res.status(200).send({ message: 'Wrong credentials!' })
+          }
 
-        res.redirect('/')
-        res.status(200).end()
+          res.redirect('/')
+          res.status(200).end()
+        })
+      }).catch(error => {
+        res.status(500).send({ message: error })
       })
-    }).catch(error => {
-      res.status(500).send({ message: error })
-    })
+  },
+  logout: (req, res) => {
+    req.logout()
+    res.redirect('/')
+    res.status(200).end();
   }
 }
