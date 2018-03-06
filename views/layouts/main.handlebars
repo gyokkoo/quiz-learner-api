@@ -2,16 +2,13 @@
 <html lang="en">
 <head>
   <title>My quiz server</title>
-  <link href="/css/site.css" type="text/css" rel="stylesheet" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
   <div class="container">
     <ul class="menu">
       <li><a href="/">Home</a></li>
-      <span>|</span>
       <li><a href="/about">About</a></li>
-      <span>|</span>
             {{#if currentUser}}
         <li>{{currentUser.username}}</li>
         <li>
@@ -20,7 +17,6 @@
         </li>
       {{else}}
         <li><a href="/users/register">Register</a></li>
-        <span>|</span>
         <li><a href="/users/login">Login</a></li>
       {{/if}}
     </ul>
