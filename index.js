@@ -1,6 +1,6 @@
 const express = require('express')
 const env = process.env.NODE_ENV || 'development'
-const userRoutes = require('./routes/auth')
+const userRoutes = require('./routes/userRoutes')
 
 // Setup MongoDB connection
 let settings = require('./config/settings')[env]
@@ -11,7 +11,7 @@ require('./config/express')(app)
 
 // Import server-routes
 // require('./config/routes')(app)
-app.use('/users', userRoutes)
+app.use('/auth', userRoutes)
 
 // Setup MongoDB connection
 require('./config/passport')()

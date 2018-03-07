@@ -1,4 +1,5 @@
 const PassportLocalStrategy = require('passport-local').Strategy
+const encryption = require('./encryption')
 const User = require('mongoose').model('User')
 
 module.exports = new PassportLocalStrategy({
@@ -7,16 +8,22 @@ module.exports = new PassportLocalStrategy({
   session: false,
   passReqToCallback: true
 }, (req, username, password, done) => {
+  let salt = encryption.generateSalt()
+
   const user = {
     username: username.trim(),
-    password: password.trim(),
-    name: req.body.name.trim()
+    hashedPass: encryption.generateHashedPassword(salt, password.trim()),
+    salt: salt,
+    firstName: req.body.firstName.trim(),
+    lastName: req.body.firstName.trim(),
+    age: req.body.age || 0,
+    roles: ['User']
   }
 
-  const existingUser = User.find({username: username})
-  if (existingUser) {
+  console.log(username)
+  User.find({username: username}).then(user => {
     return done('Username already exists!')
-  }
+  })
 
   User.create(user)
 })

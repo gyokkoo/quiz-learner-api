@@ -7,7 +7,8 @@ function validateData (data) {
   const errors = {}
   let isValid = true
   let message = ''
-
+  console.log(data)
+  /*
   if (!data || typeof data.password !== 'string' || data.password.trim().length < 4) {
     isValid = false
     errors.password = 'Password must have at least 4 characters.'
@@ -26,7 +27,7 @@ function validateData (data) {
   if (!isValid) {
     message = 'Check the form for errors.'
   }
-
+  */
   return {
     success: isValid,
     message,
@@ -46,12 +47,15 @@ router.post('/register', (req, res, next) => {
 
   return passport.authenticate('local-signup', (err) => {
     if (err) {
+      console.log(1)
+      console.log(err)
       return res.status(200).json({
         success: false,
         message: err
       })
     }
 
+    console.log('No err')
     return res.status(200).json({
       success: true,
       message: 'You have successfully signed up! Now you should be able to log in.'
