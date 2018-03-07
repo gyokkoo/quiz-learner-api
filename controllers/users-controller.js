@@ -48,7 +48,7 @@ module.exports = {
     User.findOne({username: userData.username}).then(user => {
       if (!user || !user.authenticate(userData.password)) {
         res.locals.globalError = 'Wrong credentials!'
-        res.status(401).send({ message: 'Wrong credentials!' });
+        res.status(401).send({ message: 'Wrong credentials!' })
         res.render('users/login')
         return
       }
@@ -56,12 +56,12 @@ module.exports = {
       req.logIn(user, (err, user) => {
         if (err) {
           res.locals.globalError = err
-          res.status(401).send({ message: err });
+          res.status(401).send({ message: err })
           res.render('users/login')
           return
         }
 
-        res.status(200).send(req.user);
+        res.status(200).send(req.user)
       })
     }).catch(error => {
       res.locals.globalError = error
@@ -69,7 +69,7 @@ module.exports = {
   },
   logout: (req, res) => {
     req.logout()
-    res.status(200);
+    res.status(200)
     res.redirect('/')
     res.end()
   }
