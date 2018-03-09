@@ -1,5 +1,5 @@
 const passport = require('passport')
-const localSignupStrategy = require('../utilities/local-login')
+const localSignupStrategy = require('../utilities/local-signup')
 const localLoginStrategy = require('../utilities/local-login')
 
 module.exports = () => {

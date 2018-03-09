@@ -1,20 +1,15 @@
 const jwt = require('jsonwebtoken')
-const User = require('../models/User')
-
+const User = require('mongoose').model('User')
 const PassportLocalStrategy = require('passport-local').Strategy
-// const encryption = require('./encryption')
 
 module.exports = new PassportLocalStrategy({
   usernameField: 'username',
   passwordField: 'password',
   session: false,
   passReqToCallback: true
-}, (req, username, password, done) => {
- // let userSalt
- // let userHashedPass
-
-  User.findOne({username: username}).then(user => {
-    if (!user || user.authenticate(password)) {
+}, (req, inputUsername, password, done) => {
+  User.findOne({username: inputUsername}).then(user => {
+    if (!user || !user.authenticate(password)) {
       return done('Incorecct username or password')
     }
 
@@ -29,19 +24,8 @@ module.exports = new PassportLocalStrategy({
     }
 
     return done(null, token, data)
+  }).catch((err) => {
+    console.log(err)
+    return done(err)
   })
-  // if (!existingUser) {
-  //   const error = new Error('Incorecct username or password')
-  //   error.name = 'IncorrectCredentialsError'
-
-  //   return done(error)
-  // }
-
-  // const isMatch = userHashedPass === encryption.generateHashedPassword(userSalt, password.trim())
-  // if (!isMatch) {
-  //   const error = new Error('Incorrect username or password')
-  //   error.name = 'IncorrectCredentialsError'
-
-  //   return done(error)
-  // }
 })

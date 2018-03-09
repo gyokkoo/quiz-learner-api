@@ -1,6 +1,6 @@
 const PassportLocalStrategy = require('passport-local').Strategy
 const encryption = require('./encryption')
-const User = require('../models/User')
+const User = require('mongoose').model('User')
 
 module.exports = new PassportLocalStrategy({
   usernameField: 'username',
