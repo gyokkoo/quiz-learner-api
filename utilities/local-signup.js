@@ -9,7 +9,6 @@ module.exports = new PassportLocalStrategy({
   passReqToCallback: true
 }, (req, username, password, done) => {
   let salt = encryption.generateSalt()
-
   const user = {
     username: username.trim(),
     hashedPass: encryption.generateHashedPassword(salt, password.trim()),
@@ -20,10 +19,17 @@ module.exports = new PassportLocalStrategy({
     roles: ['User']
   }
 
-  console.log(username)
-  User.find({username: username}).then(user => {
+  User.findOne({username: username}).then(user => {
     return done('Username already exists!')
-  })
+  }).then(
+    User
+    .create(user).then(user => {
+      return done(null)
+    })
+    .catch(err => {
+      return done(err)
+    })
+  )
 
-  User.create(user)
+  // return done(null)
 })
