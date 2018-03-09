@@ -39,9 +39,9 @@ function validateLoginData (data) {
   let isFormValid = true
   let message = ''
 
-  if (!data || typeof data.email !== 'string' || data.email.trim().length === 0) {
+  if (!data || typeof data.username !== 'string' || data.username.trim().length === 0) {
     isFormValid = false
-    errors.email = 'Please provide your email address.'
+    errors.username = 'Please provide your username.'
   }
 
   if (!data || typeof data.password !== 'string' || data.password.trim().length === 0) {
@@ -72,6 +72,7 @@ router.post('/login', (req, res, next) => {
 
   return passport.authenticate('local-login', (err, token, userData) => {
     if (err) {
+      console.log(err)
       if (err.name === 'IncorrectCredentialsError') {
         return res.status(200).json({
           success: false,

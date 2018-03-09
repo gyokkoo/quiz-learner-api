@@ -1,38 +1,8 @@
 const passport = require('passport')
-// const LocalPassport = require('passport-local')
-// const User = require('mongoose').model('User')
-const localSignupStrategy = require('../utilities/local-signup')
+const localSignupStrategy = require('../utilities/local-login')
 const localLoginStrategy = require('../utilities/local-login')
 
 module.exports = () => {
   passport.use('local-signup', localSignupStrategy)
   passport.use('local-login', localLoginStrategy)
-  /*
-  passport.use(new LocalPassport((username, password, done) => {
-    User.findOne({username: username}).then(user => {
-      if (!user) {
-        return done(null, false)
-      }
-      if (!user.authenticate(password)) {
-        return done(null, false)
-      }
-      return done(null, user)
-    })
-  }))
-
-  passport.serializeUser((user, done) => {
-    if (user) {
-      return done(null, user._id)
-    }
-  })
-
-  passport.deserializeUser((id, done) => {
-    User.findById(id).then(user => {
-      if (!user) {
-        return done(null, false)
-      }
-      return done(null, user)
-    })
-  })
-  */
 }

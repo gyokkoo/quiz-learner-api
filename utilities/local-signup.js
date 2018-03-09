@@ -1,6 +1,6 @@
 const PassportLocalStrategy = require('passport-local').Strategy
 const encryption = require('./encryption')
-const User = require('mongoose').model('User')
+const User = require('../models/User')
 
 module.exports = new PassportLocalStrategy({
   usernameField: 'username',
@@ -19,17 +19,12 @@ module.exports = new PassportLocalStrategy({
     roles: ['User']
   }
 
-  User.findOne({username: username}).then(user => {
-    return done('Username already exists!')
-  }).then(
-    User
+  User
     .create(user).then(user => {
+      console.log(`Username successfully registered ${user.username}`)
       return done(null)
     })
-    .catch(err => {
-      return done(err)
+    .catch(() => {
+      return done('Username already exists!')
     })
-  )
-
-  // return done(null)
 })

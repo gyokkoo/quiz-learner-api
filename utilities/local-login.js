@@ -1,45 +1,47 @@
 const jwt = require('jsonwebtoken')
-const User = require('mongoose').model('User')
-const PassportLocalStrategy = require('passport-local').Strategy
+const User = require('../models/User')
 
-module.exporta = new PassportLocalStrategy({
+const PassportLocalStrategy = require('passport-local').Strategy
+// const encryption = require('./encryption')
+
+module.exports = new PassportLocalStrategy({
   usernameField: 'username',
   passwordField: 'password',
   session: false,
   passReqToCallback: true
 }, (req, username, password, done) => {
-  const user = {
-    username: username.trim(),
-    hashedPass: password.trim()
-  }
+ // let userSalt
+ // let userHashedPass
 
-  let existingUser = User.find({username: username})
+  User.findOne({username: username}).then(user => {
+    if (!user || user.authenticate(password)) {
+      return done('Incorecct username or password')
+    }
 
-  if (!existingUser) {
-    console.log('in error scope')
-    const error = new Error('Incorecct username or password')
-    error.name = 'IncorrectCredentialsError'
+    const payload = {
+      sub: user._id
+    }
 
-    return done(error)
-  }
+    // create a token string
+    const token = jwt.sign(payload, 'c9ffcf6087a')
+    const data = {
+      name: user.name
+    }
 
-  const isMatch = existingUser.hashedPass === user.hashedPass
-  if (!isMatch) {
-    const error = new Error('Incorrect username or password')
-    error.name = 'IncorrectCredentialsError'
+    return done(null, token, data)
+  })
+  // if (!existingUser) {
+  //   const error = new Error('Incorecct username or password')
+  //   error.name = 'IncorrectCredentialsError'
 
-    return done(error)
-  }
+  //   return done(error)
+  // }
 
-  const payload = {
-    sub: existingUser.id
-  }
+  // const isMatch = userHashedPass === encryption.generateHashedPassword(userSalt, password.trim())
+  // if (!isMatch) {
+  //   const error = new Error('Incorrect username or password')
+  //   error.name = 'IncorrectCredentialsError'
 
-  // create a token string
-  const token = jwt.sign(payload, 'c9ffcf6087a')
-  const data = {
-    name: existingUser.name
-  }
-
-  return done(null, token, data)
+  //   return done(error)
+  // }
 })
