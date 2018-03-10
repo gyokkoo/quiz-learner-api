@@ -17,15 +17,13 @@ module.exports = new PassportLocalStrategy({
       sub: user._id
     }
 
-    // create a token string
     const token = jwt.sign(payload, 'c9ffcf6087a')
     const data = {
-      name: user.name
+      name: user.username
     }
 
     return done(null, token, data)
   }).catch((err) => {
-    console.log(err)
     return done(err)
   })
 })

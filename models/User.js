@@ -33,7 +33,9 @@ let userSchema = new mongoose.Schema({
     max: [120, 'Age must be between 0 and 120']
   },
   roles: [{ type: mongoose.Schema.Types.String }],
-  votes: { type: mongoose.Schema.Types.Number, default: 0 }
+  votes: { type: mongoose.Schema.Types.Number, default: 0 },
+  solvedQuizzes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Quiz'}],
+  addedQuizzes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Quiz'}]
 })
 
 userSchema.method({

@@ -7,7 +7,6 @@ function validateRegisterData (data) {
   const errors = {}
   let isValid = true
   let message = ''
-  console.log(data)
   if (!data || typeof data.password !== 'string' || data.password.trim().length < 4) {
     isValid = false
     errors.password = 'Password must have at least 4 characters.'
@@ -72,7 +71,6 @@ router.post('/login', (req, res, next) => {
 
   return passport.authenticate('local-login', (err, token, userData) => {
     if (err) {
-      console.log(err)
       if (err.name === 'IncorrectCredentialsError') {
         return res.status(200).json({
           success: false,
@@ -82,7 +80,7 @@ router.post('/login', (req, res, next) => {
 
       return res.status(200).json({
         success: false,
-        message: 'Could not process the form.'
+        message: err
       })
     }
 
