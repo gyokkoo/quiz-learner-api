@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const usersData = require('../data/users')
+const User = require('../models/User')
 
 module.exports = (req, res, next) => {
   if (!req.headers.authorization) {
@@ -12,16 +12,17 @@ module.exports = (req, res, next) => {
   // decode the token using a secret key-phrase
   return jwt.verify(token, 'c9ffcf6087a', (err, decoded) => {
     // the 401 code is for unauthorized status
-    if (err) { return res.status(401).end() }
-
-    const userId = decoded.sub
-
-    const user = usersData.findById(userId)
-    if (!user) {
+    if (err) {
       return res.status(401).end()
     }
 
-    req.user = user
+    const userId = decoded.sub
+    User.findById(userId).then(user => {
+      if (!user) {
+        return res.status(401).end()
+      }
+      req.user = user
+    })
 
     return next()
   })
