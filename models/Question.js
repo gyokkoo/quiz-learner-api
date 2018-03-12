@@ -9,6 +9,9 @@ let questionSchema = mongoose.Schema({
     type: mongoose.Schema.Types.String,
     required: true
   },
+  number: {
+    type: mongoose.Schema.Types.Number
+  },
   answers: [{
     type: mongoose.Schema.Types.String
   }],
