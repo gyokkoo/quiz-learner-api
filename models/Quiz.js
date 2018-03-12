@@ -10,14 +10,12 @@ let quizSchema = mongoose.Schema({
     ref: 'User',
     required: true
   },
-  description: {
-    type: mongoose.Schema.Types.String
-  },
-  questions: [{ type: mongoose.Schema.Types.String }],
-  correctAnswers: [{ type: mongoose.Schema.Types.String }],
-  wrongAnswers: [{ type: mongoose.Schema.Types.String }]
+  questions: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Question'
+  }]
 })
 
-let Quiz = mongoose.model('Category', quizSchema)
+let Quiz = mongoose.model('Quiz', quizSchema)
 
 module.exports = Quiz
