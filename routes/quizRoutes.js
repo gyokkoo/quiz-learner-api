@@ -47,13 +47,6 @@ router.post('/create', authCheck, (req, res) => {
   }
   // console.log(quizToAdd)
   Quiz.create(quizToAdd).then(quiz => {
-    if (!quiz) {
-      return res.status(500).json({
-        success: false,
-        message: 'Cannot write the quiz in database',
-        errors: 'Quiz error'
-      })
-    }
     res.status(200).json({
       success: true,
       message: `Quiz ${quiz.name} added!`,
@@ -90,14 +83,6 @@ router.post('/addQuestion', authCheck, (req, res) => {
   }
   console.log(questionToAdd)
   Question.create(questionToAdd).then(question => {
-    if (!question) {
-      return res.status(500).json({
-        success: false,
-        message: 'Cannot write the question in database',
-        errors: 'Question error'
-      })
-    }
-
     res.status(200).json({
       success: true,
       message: `Question ${question.question} added!`,
@@ -117,10 +102,7 @@ router.get('/getAllQuizzes', (req, res) => {
   Quiz
     .find()
     .then(quizzes => {
-      if (!quizzes) {
-        res.status(400).json({ message: 'No Quizzes. Care to add some?' })
-      }
-      console.log(quizzes)
+      // console.log(quizzes)
       res.status(200).json({
         success: true,
         message: `Quizzes loaded!`,
@@ -128,6 +110,11 @@ router.get('/getAllQuizzes', (req, res) => {
       })
     }).catch(err => {
       console.log(err)
+      res.status(400).json({
+        success: false,
+        message: 'No Quizzes. Care to add some?',
+        error: 'Quiz error'
+      })
     })
 })
 
@@ -144,6 +131,26 @@ router.get('/getQuestions/:id', (req, res) => {
       success: true,
       message: `Questions loaded!`,
       questions
+    })
+  }).catch(err => {
+    console.log(err)
+    res.status(500).json({
+      success: false,
+      message: 'Cannot find quiz with id ' + id,
+      errors: err
+    })
+  })
+})
+
+router.get('/getQuizById/:id', (req, res) => {
+  const id = req.params.id
+  // console.log(id)
+  Quiz.findById(id).then(quiz => {
+    console.log(quiz)
+    res.status(200).json({
+      success: true,
+      message: `Questions loaded!`,
+      quiz
     })
   }).catch(err => {
     console.log(err)

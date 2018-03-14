@@ -8,10 +8,8 @@ let categorySchema = mongoose.Schema({
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  quizzes: [ { type: mongoose.Schema.Types.ObjectId, ref: 'Quiz' } ]
+    ref: 'User'
+  }
 })
 
 let Category = mongoose.model('Category', categorySchema)
