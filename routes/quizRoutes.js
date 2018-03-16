@@ -2,8 +2,9 @@ const express = require('express')
 const authCheck = require('../middleware/auth-check')
 const Quiz = require('../models/Quiz')
 const Question = require('../models/Question')
+const SolvedQuiz = require('../models/SolvedQuiz')
 const User = require('../models/User')
-
+const helpers = require('./helpers')
 const router = new express.Router()
 
 function validateQuizData (data) {
@@ -176,6 +177,36 @@ router.get('/getQuizById/:id', (req, res) => {
       success: false,
       message: 'Cannot find quiz with id ' + id,
       errors: err
+    })
+  })
+})
+
+router.post('/addSolvedQuiz', (req, res) => {
+  const quizData = req.body
+  // TODO: validate!
+  let solvedQuizScores = helpers.getScore(quizData.questions, quizData.answers)
+  const solvedQuiz = {
+    quizId: quizData.quizId,
+    solvedBy: quizData.userId,
+    questions: quizData.questions,
+    answers: quizData.answers,
+    score: solvedQuizScores.score,
+    dateSolved: new Date()
+  }
+  // console.log(solvedQuiz)
+  SolvedQuiz.create(solvedQuiz).then(quiz => {
+    res.status(200).json({
+      success: true,
+      message: `Quiz solution ${quiz.question} added!`,
+      solvedQuiz,
+      solvedQuizScores
+    })
+  }).catch(err => {
+    console.log('Error: ' + err)
+    return res.status(500).json({
+      success: false,
+      message: 'Cannot write the solved quiz in database',
+      errors: 'Quiz solved error'
     })
   })
 })
