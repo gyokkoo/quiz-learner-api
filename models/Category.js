@@ -9,7 +9,11 @@ let categorySchema = mongoose.Schema({
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-  }
+  },
+  quizzes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Quiz'
+  }]
 })
 
 let Category = mongoose.model('Category', categorySchema)

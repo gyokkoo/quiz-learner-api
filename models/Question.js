@@ -17,7 +17,11 @@ let questionSchema = mongoose.Schema({
   }],
   correctAnswers: [{
     type: mongoose.Schema.Types.String
-  }]
+  }],
+  creatorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 let Question = mongoose.model('Question', questionSchema)

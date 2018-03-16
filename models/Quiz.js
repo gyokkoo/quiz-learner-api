@@ -5,7 +5,7 @@ let quizSchema = mongoose.Schema({
     type: mongoose.Schema.Types.String,
     required: true
   },
-  creator: {
+  creatorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
@@ -17,7 +17,14 @@ let quizSchema = mongoose.Schema({
   questions: [{
     type: mongoose.Schema.ObjectId,
     ref: 'Question'
-  }]
+  }],
+  solved: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'SolvedQuiz'
+  }],
+  averageScore: { type: mongoose.Schema.Types.Number, default: 0 },
+  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+  dateCreated: { type: mongoose.Schema.Types.Date, default: Date.now }
 })
 
 let Quiz = mongoose.model('Quiz', quizSchema)

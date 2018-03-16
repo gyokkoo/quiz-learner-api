@@ -2,8 +2,7 @@ const express = require('express')
 const authCheck = require('../middleware/auth-check')
 const Quiz = require('../models/Quiz')
 const Question = require('../models/Question')
-
-// const User = require('../models/User')
+const User = require('../models/User')
 
 const router = new express.Router()
 
@@ -43,7 +42,7 @@ router.post('/create', authCheck, (req, res) => {
   const quizToAdd = {
     name: quizData.title.trim(),
     description: quizData.description.trim(),
-    creator: quizData.userId
+    creatorId: quizData.userId
   }
   // console.log(quizToAdd)
   Quiz.create(quizToAdd).then(quiz => {
@@ -81,8 +80,16 @@ router.post('/addQuestion', authCheck, (req, res) => {
     correctAnswers: questionData.correctAnswers,
     number: questionData.questionNumber
   }
-  console.log(questionToAdd)
+  // console.log(questionToAdd)
   Question.create(questionToAdd).then(question => {
+    let quizId = question.quizId
+    let questionId = question._id
+    Quiz.findByIdAndUpdate(quizId, {$push: {questions: questionId}}, {upsert: true}, function (err, doc) {
+      if (err) {
+        return res.send(500, { error: err })
+      }
+    })
+
     res.status(200).json({
       success: true,
       message: `Question ${question.question} added!`,
@@ -146,11 +153,22 @@ router.get('/getQuizById/:id', (req, res) => {
   const id = req.params.id
   // console.log(id)
   Quiz.findById(id).then(quiz => {
-    console.log(quiz)
-    res.status(200).json({
-      success: true,
-      message: `Questions loaded!`,
-      quiz
+    // console.log(quiz)
+    User.findById(quiz.creatorId).then(user => {
+      let creator = user.username
+      // console.log(quiz)
+      res.status(200).json({
+        success: true,
+        message: `Questions loaded!`,
+        quiz,
+        creator
+      })
+    }).catch(err => {
+      res.status(500).json({
+        success: false,
+        message: 'Cannot find user with id ' + quiz.create,
+        errors: err
+      })
     })
   }).catch(err => {
     console.log(err)

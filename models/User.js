@@ -32,10 +32,26 @@ let userSchema = new mongoose.Schema({
     min: [0, 'Age must be between 0 and 120'],
     max: [120, 'Age must be between 0 and 120']
   },
-  roles: [{ type: mongoose.Schema.Types.String }],
-  votes: { type: mongoose.Schema.Types.Number, default: 0 },
-  solvedQuizzes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Quiz'}],
-  addedQuizzes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Quiz'}]
+  roles: [{
+    type: mongoose.Schema.Types.String
+  }],
+  rating: {
+    type: mongoose.Schema.Types.Number,
+    default: 0,
+    min: 0,
+    max: 10
+  },
+  solvedQuizzes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'SolvedQuiz'
+  }],
+  addedQuizzes: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Quiz'
+  }],
+  dataRegistered: {
+    type: mongoose.Schema.Types.Date,
+    default: Date.now
+  }
 })
 
 userSchema.method({
