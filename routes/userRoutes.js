@@ -1,5 +1,7 @@
 const express = require('express')
 const passport = require('passport')
+const User = require('../models/User')
+const SolvedQuiz = require('../models/SolvedQuiz')
 
 const router = new express.Router()
 
@@ -112,12 +114,40 @@ router.post('/register', (req, res, next) => {
       })
     }
 
-    console.log('No err')
     return res.status(200).json({
       success: true,
       message: 'You have successfully signed up! Now you should be able to log in.'
     })
   })(req, res, next)
+})
+
+router.get('/getUserById/:id', (req, res) => {
+  const id = req.params.id
+  // console.log(id)
+
+  User.findById(id).then(user => {
+    const userData = {
+      username: user.username,
+      fullName: user.firstName + ' ' + user.lastName,
+      roles: user.roles,
+      registrationDate: user.dateRegistered
+    }
+    SolvedQuiz.find({solvedBy: id}).then(quizzes => {
+      userData.solvedQuizzes = quizzes
+      res.status(200).json({
+        success: true,
+        message: `User data loaded!`,
+        userData
+      })
+    })
+  }).catch(err => {
+    console.log(err)
+    res.status(500).json({
+      success: false,
+      message: 'Cannot find quiz with id ' + id,
+      errors: err
+    })
+  })
 })
 
 module.exports = router

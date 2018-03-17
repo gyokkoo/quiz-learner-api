@@ -1,12 +1,10 @@
 const Question = require('../models/Question')
 
 module.exports = {
-  getScore: (questionsId, answers) => {
+  getScore: (questionsId, answers, callback) => {
     let allQuestions = questionsId.length
-    let correctAnswers = 0
-    let wrongAnswers = 0
-    let wrongAnswersIds = []
-
+    let wrongAnswers = []
+    let correctAnswers = []
     for (let i = 0; i < allQuestions; i++) {
       Question.findById(questionsId[i]).then(question => {
         let isCorrect = true
@@ -21,25 +19,30 @@ module.exports = {
           }
         }
 
+        let answer = {
+          question: question.question,
+          answer: answers[i]
+        }
+
         if (isCorrect) {
-          correctAnswers++
+          correctAnswers.push(answer)
         } else {
-          wrongAnswers++
-          wrongAnswersIds.push(question._id)
+          answer.correctAnswer = question.correctAnswers
+          wrongAnswers.push(answer)
         }
 
         // Last question traversed
         if (i === allQuestions - 1) {
           let result = {
-            correctCount: correctAnswers,
-            wrongCount: wrongAnswers,
-            wrongIds: wrongAnswersIds,
-            score: (correctAnswers / allQuestions) * 10
+            correctCount: correctAnswers.length,
+            wrongCount: wrongAnswers.length,
+            wrongAnswers: wrongAnswers,
+            correctAnswers: correctAnswers,
+            score: ((correctAnswers.length / allQuestions) * 10).toFixed(2) // From 0 to 10
           }
 
           console.log(result)
-
-          return result
+          callback(result)
         }
       }).catch(err => {
         console.log(err)

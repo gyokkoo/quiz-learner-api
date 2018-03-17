@@ -14,7 +14,7 @@ module.exports = new PassportLocalStrategy({
     hashedPass: encryption.generateHashedPassword(salt, password.trim()),
     salt: salt,
     firstName: req.body.firstName.trim(),
-    lastName: req.body.firstName.trim(),
+    lastName: req.body.lastName.trim(),
     age: req.body.age || 0,
     roles: ['User']
   }

@@ -6,6 +6,9 @@ let solvedQuizSchema = mongoose.Schema({
     ref: 'User',
     required: true
   },
+  name: {
+    type: mongoose.Schema.Types.String
+  },
   solvedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

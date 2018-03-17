@@ -183,32 +183,32 @@ router.get('/getQuizById/:id', (req, res) => {
 
 router.post('/addSolvedQuiz', (req, res) => {
   const quizData = req.body
-  // TODO: validate!
-  let solvedQuizScores = helpers.getScore(quizData.questions, quizData.answers)
   const solvedQuiz = {
     quizId: quizData.quizId,
     solvedBy: quizData.userId,
     questions: quizData.questions,
     answers: quizData.answers,
-    score: solvedQuizScores.score,
     dateSolved: new Date()
   }
-  // console.log(solvedQuiz)
-  SolvedQuiz.create(solvedQuiz).then(quiz => {
-    res.status(200).json({
-      success: true,
-      message: `Quiz solution ${quiz.question} added!`,
-      solvedQuiz,
-      solvedQuizScores
-    })
-  }).catch(err => {
-    console.log('Error: ' + err)
-    return res.status(500).json({
-      success: false,
-      message: 'Cannot write the solved quiz in database',
-      errors: 'Quiz solved error'
+  // TODO: validate!
+  helpers.getScore(quizData.questions, quizData.answers, function (scoreResult) {
+    SolvedQuiz.create(solvedQuiz).then(quiz => {
+      res.status(200).json({
+        success: true,
+        message: `Solved Quiz added!`,
+        quiz,
+        scoreResult
+      })
+    }).catch(err => {
+      console.log('Error: ' + err)
+      return res.status(500).json({
+        success: false,
+        message: 'Cannot write the solved quiz in database',
+        errors: 'Quiz solved error'
+      })
     })
   })
+  // console.log(solvedQuiz)
 })
 
 module.exports = router

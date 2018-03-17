@@ -48,7 +48,7 @@ let userSchema = new mongoose.Schema({
   addedQuizzes: [{
     type: mongoose.Schema.Types.ObjectId, ref: 'Quiz'
   }],
-  dataRegistered: {
+  dateRegistered: {
     type: mongoose.Schema.Types.Date,
     default: Date.now
   }
