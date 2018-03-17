@@ -23,7 +23,7 @@ let quizSchema = mongoose.Schema({
     ref: 'SolvedQuiz'
   }],
   averageScore: { type: mongoose.Schema.Types.Number, default: 0 },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+  // category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
   dateCreated: { type: mongoose.Schema.Types.Date, default: Date.now }
 })
 
