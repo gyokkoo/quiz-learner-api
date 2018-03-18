@@ -1,7 +1,7 @@
 const Question = require('../models/Question')
 
 module.exports = {
-  getScore: (questionsId, answers, callback) => {
+  getScore: (questionsId, answers, _callback) => {
     let allQuestions = questionsId.length
     let wrongAnswers = []
     let correctAnswers = []
@@ -42,7 +42,7 @@ module.exports = {
           }
 
           console.log(result)
-          callback(result)
+          _callback(result)
         }
       }).catch(err => {
         console.log(err)

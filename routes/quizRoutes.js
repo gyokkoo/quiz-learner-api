@@ -152,17 +152,17 @@ router.get('/getQuestions/:id', (req, res) => {
 
 router.get('/getQuizById/:id', (req, res) => {
   const id = req.params.id
-  // console.log(id)
   Quiz.findById(id).then(quiz => {
-    // console.log(quiz)
     User.findById(quiz.creatorId).then(user => {
-      let creator = user.username
-      // console.log(quiz)
-      res.status(200).json({
-        success: true,
-        message: `Questions loaded!`,
-        quiz,
-        creator
+      Question.find({quizId: id}).then(allQuestions => {
+        const creator = user.username
+        res.status(200).json({
+          success: true,
+          message: `Questions loaded!`,
+          allQuestions,
+          quiz,
+          creator
+        })
       })
     }).catch(err => {
       res.status(500).json({
