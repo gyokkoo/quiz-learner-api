@@ -211,4 +211,82 @@ router.post('/addSolvedQuiz', (req, res) => {
   // console.log(solvedQuiz)
 })
 
+router.get('/getQuestionById/:id', (req, res) => {
+  const id = req.params.id
+  Question.findById(id).then(question => {
+    const questionData = {
+      question: question.question,
+      answers: question.answers,
+      correctAnswers: question.correctAnswers,
+      quizId: question.quizId,
+      questionNumber: question.number
+    }
+    console.log(question)
+    res.status(200).json({
+      success: true,
+      message: `Question loaded!`,
+      questionData
+    })
+  }).catch(err => {
+    console.log(err)
+    res.status(500).json({
+      success: false,
+      message: 'Cannot find question with id ' + id,
+      errors: err
+    })
+  })
+})
+
+router.put('/editQuestion/:id', authCheck, (req, res) => {
+  const id = req.params.id
+  const questionData = req.body
+  const questionToEdit = {
+    quizId: questionData.quizId,
+    question: questionData.question.trim(),
+    answers: questionData.answers,
+    correctAnswers: questionData.correctAnswers,
+    number: questionData.questionNumber
+  }
+  console.log(questionToEdit)
+  Question.findByIdAndUpdate(id, questionToEdit, {upsert: true}, function (err, doc) {
+    if (err) {
+      return res.send(500, { error: err })
+    }
+    console.log(doc)
+    res.status(200).json({
+      success: true,
+      message: `Question ${questionToEdit.question} edited!`,
+      questionToEdit
+    })
+  }).catch(err => {
+    console.log('Error: ' + err)
+    return res.status(500).json({
+      success: false,
+      message: 'Cannot write the qusetion in database',
+      errors: 'Question error'
+    })
+  })
+})
+
+router.delete('/deleteQuestion/:id', authCheck, (req, res) => {
+  const id = req.params.id
+  Question.findByIdAndRemove(id, function (err, doc) {
+    if (err) {
+      return res.send(500, { error: err })
+    }
+    console.log(doc)
+    res.status(200).json({
+      success: true,
+      message: `Question removed!`
+    })
+  }).catch(err => {
+    console.log('Error: ' + err)
+    return res.status(500).json({
+      success: false,
+      message: 'Cannot delete the qusetion in database',
+      errors: 'Question error'
+    })
+  })
+})
+
 module.exports = router
