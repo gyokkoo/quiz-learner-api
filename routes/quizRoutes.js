@@ -289,4 +289,23 @@ router.delete('/deleteQuestion/:id', authCheck, (req, res) => {
   })
 })
 
+router.delete('/deleteQuiz/:id', authCheck, (req, res) => {
+  const id = req.params.id
+  Quiz.findByIdAndRemove(id, function (err, doc) {
+    if (err) {
+      return res.send(500, { error: err })
+    }
+    let questionsId = doc.questions;
+    for (let id of questionsId) {
+      Question.findByIdAndRemove(id, function (err, doc) {
+        console.log(doc._id + " was removed");
+      })
+    }
+    res.status(200).json({
+      success: true,
+      message: `Quiz removed!`
+    })
+  })
+})
+
 module.exports = router
