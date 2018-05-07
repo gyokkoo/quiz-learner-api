@@ -283,7 +283,7 @@ router.delete('/deleteQuestion/:id', authCheck, (req, res) => {
     console.log('Error: ' + err)
     return res.status(500).json({
       success: false,
-      message: 'Cannot delete the qusetion in database',
+      message: 'Cannot delete the question in database',
       errors: 'Question error'
     })
   })
@@ -306,6 +306,35 @@ router.delete('/deleteQuiz/:id', authCheck, (req, res) => {
       message: `Quiz removed!`
     })
   })
+})
+
+router.get('/getMostRecent', (req, res) => {
+  Quiz
+    .find()
+    .sort({ dataCreated:  -1})
+    .limit(3)
+    .then(mostRecentQuizzes => {
+      Quiz.count({}, function (err, quizzesCount) {
+        SolvedQuiz.count({}, function (err, solvedQuizzesCount) {
+          Question.count({}, function (err, questionsCount) {
+            User.count({}, function (err, usersCount) {
+              const result = {
+                quizzes: mostRecentQuizzes,
+                totalQuizzes: quizzesCount,
+                totalSolvedQuizzes: solvedQuizzesCount,
+                totalQuestions: questionsCount,
+                totalUsers: usersCount
+              }
+              res.status(200).json({
+                success: true,
+                message: 'Info loaded!',
+                data: result
+              })
+            })
+          })
+        })
+      })
+    })
 })
 
 module.exports = router
