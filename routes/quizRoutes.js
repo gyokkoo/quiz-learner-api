@@ -129,7 +129,7 @@ router.get('/getAllQuizzes', (req, res) => {
 router.get('/getQuestions/:id', (req, res) => {
   const id = req.params.id
   console.log(id)
-  Question.find({quizId: id}).then(questions => {
+  Question.find({ quizId: id }).then(questions => {
     if (!questions) {
       res.status(400).json({ message: 'No Questions. Care to add some?' })
       return
@@ -154,7 +154,7 @@ router.get('/getQuizById/:id', (req, res) => {
   const id = req.params.id
   Quiz.findById(id).then(quiz => {
     User.findById(quiz.creatorId).then(user => {
-      Question.find({quizId: id}).then(allQuestions => {
+      Question.find({ quizId: id }).then(allQuestions => {
         const creator = user.username
         res.status(200).json({
           success: true,
@@ -248,7 +248,7 @@ router.put('/editQuestion/:id', authCheck, (req, res) => {
     number: questionData.questionNumber
   }
   console.log(questionToEdit)
-  Question.findByIdAndUpdate(id, questionToEdit, {upsert: true}, function (err, doc) {
+  Question.findByIdAndUpdate(id, questionToEdit, { upsert: true }, function (err, doc) {
     if (err) {
       return res.send(500, { error: err })
     }
@@ -295,10 +295,13 @@ router.delete('/deleteQuiz/:id', authCheck, (req, res) => {
     if (err) {
       return res.send(500, { error: err })
     }
-    let questionsId = doc.questions;
+    let questionsId = doc.questions
     for (let id of questionsId) {
       Question.findByIdAndRemove(id, function (err, doc) {
-        console.log(doc._id + " was removed");
+        if (err) {
+          return res.send(500, { error: err })
+        }
+        console.log(doc._id + ' was removed')
       })
     }
     res.status(200).json({
@@ -311,7 +314,7 @@ router.delete('/deleteQuiz/:id', authCheck, (req, res) => {
 router.get('/getMostRecent', (req, res) => {
   Quiz
     .find()
-    .sort({ dataCreated:  -1})
+    .sort({ dataCreated: -1 })
     .limit(3)
     .then(mostRecentQuizzes => {
       Quiz.count({}, function (err, quizzesCount) {

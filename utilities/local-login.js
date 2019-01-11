@@ -8,7 +8,7 @@ module.exports = new PassportLocalStrategy({
   session: false,
   passReqToCallback: true
 }, (req, inputUsername, password, done) => {
-  User.findOne({username: inputUsername}).then(user => {
+  User.findOne({ username: inputUsername }).then(user => {
     if (!user || !user.authenticate(password)) {
       return done('Incorecct username or password')
     }
