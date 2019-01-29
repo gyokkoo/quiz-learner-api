@@ -132,7 +132,7 @@ router.get('/getUserById/:id', (req, res) => {
       roles: user.roles,
       registrationDate: user.dateRegistered
     }
-    SolvedQuiz.find({solvedBy: id}).then(quizzes => {
+    SolvedQuiz.find({ solvedBy: id }).then(quizzes => {
       userData.solvedQuizzes = quizzes
       res.status(200).json({
         success: true,

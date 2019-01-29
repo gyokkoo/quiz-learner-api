@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
 module.exports = (req, res, next) => {
+  console.log('In autch-check.js')
+
   if (!req.headers.authorization) {
     return res.status(401).end()
   }

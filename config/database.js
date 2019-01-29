@@ -6,6 +6,7 @@ mongoose.Promise = global.Promise
 
 module.exports = (settings) => {
   mongoose.connect(settings.db)
+  console.log(`Trying to connect to ${settings.db}`)
 
   let db = mongoose.connection
 

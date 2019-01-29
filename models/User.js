@@ -27,11 +27,6 @@ let userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.String,
     required: getRequiredPropMsg('Last Name')
   },
-  age: {
-    type: mongoose.Schema.Types.Number,
-    min: [0, 'Age must be between 0 and 120'],
-    max: [120, 'Age must be between 0 and 120']
-  },
   roles: [{
     type: mongoose.Schema.Types.String
   }],
@@ -73,7 +68,7 @@ const User = mongoose.model('User', userSchema)
 module.exports = User
 
 module.exports.seedAdminUser = () => {
-  User.find({username: 'Admin'}).then(users => {
+  User.find({ username: 'Admin' }).then(users => {
     if (users.length > 0) {
       return
     }
