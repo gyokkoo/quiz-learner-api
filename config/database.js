@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const User = require('../models/User').default
+const User = require('../models/User')
 
 // Mongoose promise is deprecated so use node.js global promise
 mongoose.Promise = global.Promise

@@ -1,28 +1,28 @@
-import { Schema, model } from 'mongoose'
+const mongoose = require('mongoose')
 
-let solvedQuizSchema = Schema({
+let solvedQuizSchema = mongoose.Schema({
   quizId: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
   name: {
-    type: Schema.Types.String
+    type: mongoose.Schema.Types.String
   },
   solvedBy: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
   questions: [{
-    type: Schema.ObjectId,
+    type: mongoose.Schema.ObjectId,
     ref: 'Question'
   }],
-  answers: [{ type: Schema.Types.String }],
-  score: { type: Schema.Types.Number, default: 0 },
-  dateSolved: { type: Schema.Types.Date, default: Date.now }
+  answers: [{type: mongoose.Schema.Types.String}],
+  score: { type: mongoose.Schema.Types.Number, default: 0 },
+  dateSolved: { type: mongoose.Schema.Types.Date, default: Date.now }
 })
 
-let SolvedQuiz = model('SolvedQuiz', solvedQuizSchema)
+let SolvedQuiz = mongoose.model('SolvedQuiz', solvedQuizSchema)
 
-export default SolvedQuiz
+module.exports = SolvedQuiz
