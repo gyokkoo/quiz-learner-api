@@ -62,6 +62,43 @@ router.post('/create', authCheck, (req, res) => {
   })
 })
 
+router.post('/createQuestion', authCheck, (req, res) => {
+  const questionData = req.body
+
+  // TODO: validate
+
+  const questionToAdd = {
+    quizId: questionData.quizId,
+    question: questionData.question,
+    answers: questionData.answers,
+    shouldShuffle: questionData.shouldShuffle
+  }
+
+  Question.create(questionToAdd).then(question => {
+    let quizId = question.quizId
+    let questionId = question._id
+    Quiz.findByIdAndUpdate(quizId, { $push: { questions: questionId } }, { upsert: true },
+      function (err, doc) {
+        if (err) {
+          return res.send(500, { error: err })
+        }
+      })
+
+    res.status(200).json({
+      success: true,
+      message: `Question ${question.question} added!`,
+      data: question
+    })
+  }).catch(err => {
+    console.log('Error: ' + err)
+    return res.status(500).json({
+      success: false,
+      message: 'Cannot write the question in database',
+      errors: 'Question error'
+    })
+  })
+})
+
 router.post('/addQuestion', authCheck, (req, res) => {
   const questionData = req.body
   // TODO: validate!
@@ -85,11 +122,12 @@ router.post('/addQuestion', authCheck, (req, res) => {
   Question.create(questionToAdd).then(question => {
     let quizId = question.quizId
     let questionId = question._id
-    Quiz.findByIdAndUpdate(quizId, {$push: {questions: questionId}}, {upsert: true}, function (err, doc) {
-      if (err) {
-        return res.send(500, { error: err })
-      }
-    })
+    Quiz.findByIdAndUpdate(quizId, { $push: { questions: questionId } }, { upsert: true },
+      function (err, doc) {
+        if (err) {
+          return res.send(500, { error: err })
+        }
+      })
 
     res.status(200).json({
       success: true,
@@ -107,6 +145,7 @@ router.post('/addQuestion', authCheck, (req, res) => {
 })
 
 router.get('/getAllQuizzes', (req, res) => {
+  console.log(req)
   Quiz
     .find()
     .then(quizzes => {
@@ -114,7 +153,7 @@ router.get('/getAllQuizzes', (req, res) => {
       res.status(200).json({
         success: true,
         message: `Quizzes loaded!`,
-        quizzes
+        data: quizzes
       })
     }).catch(err => {
       console.log(err)
@@ -318,9 +357,29 @@ router.get('/getMostRecent', (req, res) => {
     .limit(3)
     .then(mostRecentQuizzes => {
       Quiz.count({}, function (err, quizzesCount) {
+        if (err) {
+          console.log(err)
+          return
+        }
+
         SolvedQuiz.count({}, function (err, solvedQuizzesCount) {
+          if (err) {
+            console.log(err)
+            return
+          }
+
           Question.count({}, function (err, questionsCount) {
+            if (err) {
+              console.log(err)
+              return
+            }
+
             User.count({}, function (err, usersCount) {
+              if (err) {
+                console.log(err)
+                return
+              }
+
               const result = {
                 quizzes: mostRecentQuizzes,
                 totalQuizzes: quizzesCount,

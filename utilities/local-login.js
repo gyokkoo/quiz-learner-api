@@ -10,7 +10,7 @@ module.exports = new PassportLocalStrategy({
 }, (req, inputUsername, password, done) => {
   User.findOne({ username: inputUsername }).then(user => {
     if (!user || !user.authenticate(password)) {
-      return done('Incorecct username or password')
+      return done('Incorect username or password')
     }
 
     const payload = {
@@ -22,6 +22,9 @@ module.exports = new PassportLocalStrategy({
       name: user.username,
       id: user._id
     }
+
+    console.log('User data:')
+    console.log(data)
 
     return done(null, token, data)
   }).catch((err) => {

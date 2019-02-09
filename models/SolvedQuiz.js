@@ -18,7 +18,7 @@ let solvedQuizSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Question'
   }],
-  answers: [{type: mongoose.Schema.Types.String}],
+  answers: [{ type: mongoose.Schema.Types.String }],
   score: { type: mongoose.Schema.Types.Number, default: 0 },
   dateSolved: { type: mongoose.Schema.Types.Date, default: Date.now }
 })

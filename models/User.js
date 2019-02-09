@@ -54,7 +54,6 @@ userSchema.method({
     let newHashedPass = encryption.generateHashedPassword(this.salt, password)
 
     if (newHashedPass === this.hashedPass) {
-      console.log(newHashedPass)
       return true
     }
 
