@@ -64,7 +64,7 @@ userSchema.method({
 
 const User = mongoose.model('User', userSchema)
 
-module.exports = User
+export default User
 
 module.exports.seedAdminUser = () => {
   User.find({ username: 'Admin' }).then(users => {
