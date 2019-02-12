@@ -10,6 +10,9 @@ let quizSchema = mongoose.Schema({
     ref: 'User',
     required: true
   },
+  creator: {
+    type: mongoose.Schema.Types.String
+  },
   description: {
     type: mongoose.Schema.Types.String,
     required: true

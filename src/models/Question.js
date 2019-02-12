@@ -14,11 +14,7 @@ let questionSchema = mongoose.Schema({
   },
   answers: [{
     answer: mongoose.Schema.Types.String,
-    isCorrect: mongoose.Schema.Types.Boolean,
-    formType: mongoose.Schema.Types.String
-  }],
-  correctAnswers: [{
-    type: mongoose.Schema.Types.String
+    isCorrect: mongoose.Schema.Types.Boolean
   }],
   creatorId: {
     type: mongoose.Schema.Types.ObjectId,
