@@ -1,4 +1,4 @@
-const path = require('path')
+import path from 'path';
 
 let rootPath = path.normalize(path.join(__dirname, '/../../'))
 let port = process.env.PORT || 8080

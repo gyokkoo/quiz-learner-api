@@ -1,4 +1,4 @@
-const passport = require('passport')
+import passport from 'passport';
 const localSignupStrategy = require('../utilities/local-signup')
 const localLoginStrategy = require('../utilities/local-login')
 
