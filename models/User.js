@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose')
 const encryption = require('../utilities/encryption')
 
 function getRequiredPropMsg (prop) {
@@ -64,7 +64,7 @@ userSchema.method({
 
 const User = mongoose.model('User', userSchema)
 
-export default User
+module.exports = User
 
 module.exports.seedAdminUser = () => {
   User.find({ username: 'Admin' }).then(users => {

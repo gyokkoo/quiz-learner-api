@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-
+const mongoose = require('mongoose')
 const User = require('../models/User')
 
 // Mongoose promise is deprecated so use node.js global promise

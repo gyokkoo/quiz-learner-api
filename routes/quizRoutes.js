@@ -2,7 +2,7 @@ const express = require('express')
 const authCheck = require('../middleware/auth-check')
 const Quiz = require('../models/Quiz')
 const Question = require('../models/Question')
-const SolvedQuiz = require('../models/SolvedQuiz').default
+const SolvedQuiz = require('../models/SolvedQuiz')
 const User = require('../models/User')
 const helpers = require('./helpers')
 const router = new express.Router()
@@ -43,8 +43,7 @@ router.post('/create', authCheck, (req, res) => {
   const quizToAdd = {
     name: quizData.title.trim(),
     description: quizData.description.trim(),
-    creatorId: quizData.userId,
-    creator: quizData.creator
+    creatorId: quizData.userId
   }
   // console.log(quizToAdd)
   Quiz.create(quizToAdd).then(quiz => {
@@ -116,6 +115,7 @@ router.post('/addQuestion', authCheck, (req, res) => {
     quizId: questionData.quizId,
     question: questionData.questionName.trim(),
     answers: questionData.answers,
+    correctAnswers: questionData.correctAnswers,
     number: questionData.questionNumber
   }
   // console.log(questionToAdd)
@@ -145,6 +145,7 @@ router.post('/addQuestion', authCheck, (req, res) => {
 })
 
 router.get('/getAllQuizzes', (req, res) => {
+  console.log(req)
   Quiz
     .find()
     .then(quizzes => {
@@ -176,7 +177,7 @@ router.get('/getQuestions/:id', (req, res) => {
     res.status(200).json({
       success: true,
       message: `Questions loaded!`,
-      data: questions
+      questions
     })
   }).catch(err => {
     console.log(err)
@@ -197,7 +198,7 @@ router.get('/getQuizById/:id', (req, res) => {
         res.status(200).json({
           success: true,
           message: `Questions loaded!`,
-          data: allQuestions,
+          allQuestions,
           quiz,
           creator
         })
@@ -219,10 +220,6 @@ router.get('/getQuizById/:id', (req, res) => {
   })
 })
 
-router.post('/saveSolvedQuiz', (req, res) => {
-})
-
-// Depricated, remove later
 router.post('/addSolvedQuiz', (req, res) => {
   const quizData = req.body
   const solvedQuiz = {
@@ -259,6 +256,7 @@ router.get('/getQuestionById/:id', (req, res) => {
     const questionData = {
       question: question.question,
       answers: question.answers,
+      correctAnswers: question.correctAnswers,
       quizId: question.quizId,
       questionNumber: question.number
     }
@@ -285,6 +283,7 @@ router.put('/editQuestion/:id', authCheck, (req, res) => {
     quizId: questionData.quizId,
     question: questionData.question.trim(),
     answers: questionData.answers,
+    correctAnswers: questionData.correctAnswers,
     number: questionData.questionNumber
   }
   console.log(questionToEdit)
@@ -335,28 +334,18 @@ router.delete('/deleteQuiz/:id', authCheck, (req, res) => {
     if (err) {
       return res.send(500, { error: err })
     }
-
-    if (doc) {
-      let questionsId = doc.questions
-      for (let id of questionsId) {
-        Question.findByIdAndRemove(id, function (err, doc) {
-          if (err) {
-            return res.send(500, { error: err })
-          }
-        })
-      }
+    let questionsId = doc.questions
+    for (let id of questionsId) {
+      Question.findByIdAndRemove(id, function (err, doc) {
+        if (err) {
+          return res.send(500, { error: err })
+        }
+        console.log(doc._id + ' was removed')
+      })
     }
-
     res.status(200).json({
       success: true,
       message: `Quiz removed!`
-    })
-  }).catch(err => {
-    console.log('Error: ' + err)
-    return res.status(500).json({
-      success: false,
-      message: 'Cannot delete the quiz from database',
-      errors: 'Quiz error'
     })
   })
 })

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose')
 
 let quizSchema = mongoose.Schema({
   name: {
@@ -9,9 +9,6 @@ let quizSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
-  },
-  creator: {
-    type: mongoose.Schema.Types.String
   },
   description: {
     type: mongoose.Schema.Types.String,

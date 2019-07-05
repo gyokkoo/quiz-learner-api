@@ -1,9 +1,9 @@
-import express from 'express';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import passport from 'passport';
-import cors from 'cors';
-import logger from 'morgan';
+const express = require('express')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+const passport = require('passport')
+const cors = require('cors')
+const logger = require('morgan')
 
 module.exports = (app) => {
   app.use(cookieParser())
@@ -11,7 +11,7 @@ module.exports = (app) => {
   app.use(bodyParser.json())
 
   app.use(passport.initialize())
-  // app.use(cors())
+  app.use(cors())
 
   app.use(logger('dev'))
 
