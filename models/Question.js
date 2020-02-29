@@ -1,31 +1,32 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-let questionSchema = mongoose.Schema({
+// eslint-disable-next-line new-cap
+const questionSchema = mongoose.Schema({
   quizId: {
     type: mongoose.Schema.Types.String,
-    required: true
+    required: true,
   },
   question: {
     type: mongoose.Schema.Types.String,
-    required: true
+    required: true,
   },
   number: {
-    type: mongoose.Schema.Types.Number
+    type: mongoose.Schema.Types.Number,
   },
   answers: [{
     answer: mongoose.Schema.Types.String,
     isCorrect: mongoose.Schema.Types.Boolean,
-    formType: mongoose.Schema.Types.String
+    formType: mongoose.Schema.Types.String,
   }],
   correctAnswers: [{
-    type: mongoose.Schema.Types.String
+    type: mongoose.Schema.Types.String,
   }],
   creatorId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }
-})
+    ref: 'User',
+  },
+});
 
-let Question = mongoose.model('Question', questionSchema)
+const Question = mongoose.model('Question', questionSchema);
 
-module.exports = Question
+module.exports = Question;

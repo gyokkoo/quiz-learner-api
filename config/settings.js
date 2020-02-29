@@ -1,20 +1,22 @@
-const path = require('path')
+const path = require('path');
 
-let rootPath = path.normalize(path.join(__dirname, '/../../'))
-let port = process.env.PORT || 8080
+const rootPath = path.normalize(path.join(__dirname, '/../../'));
+const port = process.env.PORT || 8080;
 
 module.exports = {
   development: {
     rootPath: rootPath,
+    // Used only for development
     db: 'mongodb://admin:GFnZoiH6W7bD@ds215759.mlab.com:15759/quiz-learner-db',
     // db: 'mongodb://gyoko:GFnZoiH6W7bD@ds149138.mlab.com:49138/net-shop'
-    port: port
+    port: port,
   },
   production: {
     port: process.env.PORT,
-    db: 'mongodb://admin:GFnZoiH6W7bD@ds215759.mlab.com:15759/quiz-learner-db'
+    // Used only for development
+    db: 'mongodb://admin:GFnZoiH6W7bD@ds215759.mlab.com:15759/quiz-learner-db',
     // db: 'mongodb://gyoko:GFnZoiH6W7bD@ds149138.mlab.com:49138/net-shop'
   },
   staging: {
-  }
-}
+  },
+};

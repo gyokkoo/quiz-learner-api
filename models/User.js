@@ -1,79 +1,79 @@
-const mongoose = require('mongoose')
-const encryption = require('../utilities/encryption')
+const mongoose = require('mongoose');
+const encryption = require('../utilities/encryption');
 
-function getRequiredPropMsg (prop) {
-  return `${prop} is required!`
+function getRequiredPropMsg(prop) {
+  return `${prop} is required!`;
 }
 
-let userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: {
     type: mongoose.Schema.Types.String,
     required: getRequiredPropMsg('Username'),
-    unique: true
+    unique: true,
   },
   hashedPass: {
     type: mongoose.Schema.Types.String,
-    required: getRequiredPropMsg('Password')
+    required: getRequiredPropMsg('Password'),
   },
   salt: {
     type: mongoose.Schema.Types.String,
-    required: true
+    required: true,
   },
   firstName: {
     type: mongoose.Schema.Types.String,
-    required: getRequiredPropMsg('First Name')
+    required: getRequiredPropMsg('First Name'),
   },
   lastName: {
     type: mongoose.Schema.Types.String,
-    required: getRequiredPropMsg('Last Name')
+    required: getRequiredPropMsg('Last Name'),
   },
   roles: [{
-    type: mongoose.Schema.Types.String
+    type: mongoose.Schema.Types.String,
   }],
   rating: {
     type: mongoose.Schema.Types.Number,
     default: 0,
     min: 0,
-    max: 10
+    max: 10,
   },
   solvedQuizzes: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'SolvedQuiz'
+    ref: 'SolvedQuiz',
   }],
   addedQuizzes: [{
-    type: mongoose.Schema.Types.ObjectId, ref: 'Quiz'
+    type: mongoose.Schema.Types.ObjectId, ref: 'Quiz',
   }],
   dateRegistered: {
     type: mongoose.Schema.Types.Date,
-    default: Date.now
-  }
-})
+    default: Date.now,
+  },
+});
 
 userSchema.method({
-  authenticate: function (password) {
-    let newHashedPass = encryption.generateHashedPassword(this.salt, password)
+  authenticate: function(password) {
+    const newPass = encryption.generateHashedPassword(this.salt, password);
 
-    if (newHashedPass === this.hashedPass) {
-      return true
+    if (newPass === this.hashedPass) {
+      return true;
     }
 
-    console.log('Invalid password!')
-    return false
-  }
-})
+    console.log('Invalid password!');
+    return false;
+  },
+});
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema);
 
-module.exports = User
+module.exports = User;
 
 module.exports.seedAdminUser = () => {
-  User.find({ username: 'Admin' }).then(users => {
+  User.find({ username: 'Admin' }).then((users) => {
     if (users.length > 0) {
-      return
+      return;
     }
 
-    let salt = encryption.generateSalt()
-    let hashedPass = encryption.generateHashedPassword(salt, 'T3stAdm!nPass')
+    const salt = encryption.generateSalt();
+    const hashedPass = encryption.generateHashedPassword(salt, 'T3stAdm!nPass');
 
     User.create({
       username: 'Admin',
@@ -82,9 +82,9 @@ module.exports.seedAdminUser = () => {
       firstName: 'Admin',
       lastName: 'Adminov',
       age: 19,
-      roles: ['Admin']
-    }).then(admin => {
-      console.log(`Admin: ${admin.username} seeded successfully`)
-    })
-  })
-}
+      roles: ['Admin'],
+    }).then((admin) => {
+      console.log(`Admin: ${admin.username} seeded successfully`);
+    });
+  });
+};

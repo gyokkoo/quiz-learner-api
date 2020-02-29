@@ -1,74 +1,79 @@
-const express = require('express')
-const passport = require('passport')
-const User = require('../models/User')
-const SolvedQuiz = require('../models/SolvedQuiz')
+const express = require('express');
+const passport = require('passport');
+const User = require('../models/User');
+const SolvedQuiz = require('../models/SolvedQuiz');
 
-const router = new express.Router()
+const router = new express.Router();
 
-function validateRegisterData (data) {
-  const errors = {}
-  let isValid = true
-  let message = ''
-  if (!data || typeof data.password !== 'string' || data.password.trim().length < 4) {
-    isValid = false
-    errors.password = 'Password must have at least 4 characters.'
+function validateRegisterData(data) {
+  const errors = {};
+  let isValid = true;
+  let message = '';
+  if (!data || typeof data.password !== 'string' ||
+      data.password.trim().length < 4) {
+    isValid = false;
+    errors.password = 'Password must have at least 4 characters.';
   }
 
-  if (!data || typeof data.firstName !== 'string' || data.firstName.trim().length === 0) {
-    isValid = false
-    errors.name = 'Please provide your name.'
+  if (!data || typeof data.firstName !== 'string' ||
+      data.firstName.trim().length === 0) {
+    isValid = false;
+    errors.name = 'Please provide your name.';
   }
 
-  if (!data || typeof data.lastName !== 'string' || data.lastName.trim().length === 0) {
-    isValid = false
-    errors.name = 'Please provide your name.'
+  if (!data || typeof data.lastName !== 'string' ||
+      data.lastName.trim().length === 0) {
+    isValid = false;
+    errors.name = 'Please provide your name.';
   }
 
   if (!isValid) {
-    message = 'Check the form for errors.'
+    message = 'Check the form for errors.';
   }
 
   return {
     success: isValid,
     message,
-    errors
-  }
+    errors,
+  };
 }
 
-function validateLoginData (data) {
-  const errors = {}
-  let isFormValid = true
-  let message = ''
+function validateLoginData(data) {
+  const errors = {};
+  let isFormValid = true;
+  let message = '';
 
-  if (!data || typeof data.username !== 'string' || data.username.trim().length === 0) {
-    isFormValid = false
-    errors.username = 'Please provide your username.'
+  if (!data || typeof data.username !== 'string' ||
+    data.username.trim().length === 0) {
+    isFormValid = false;
+    errors.username = 'Please provide your username.';
   }
 
-  if (!data || typeof data.password !== 'string' || data.password.trim().length === 0) {
-    isFormValid = false
-    errors.password = 'Please provide your password.'
+  if (!data || typeof data.password !== 'string' ||
+    data.password.trim().length === 0) {
+    isFormValid = false;
+    errors.password = 'Please provide your password.';
   }
 
   if (!isFormValid) {
-    message = 'Check the form for errors.'
+    message = 'Check the form for errors.';
   }
 
   return {
     success: isFormValid,
     message,
-    errors
-  }
+    errors,
+  };
 }
 
 router.post('/login', (req, res, next) => {
-  const validationResult = validateLoginData(req.body)
+  const validationResult = validateLoginData(req.body);
   if (!validationResult.success) {
     return res.status(200).json({
       success: false,
       message: validationResult.message,
-      errors: validationResult.errors
-    })
+      errors: validationResult.errors,
+    });
   }
 
   return passport.authenticate('local-login', (err, token, userData) => {
@@ -76,78 +81,79 @@ router.post('/login', (req, res, next) => {
       if (err.name === 'IncorrectCredentialsError') {
         return res.status(200).json({
           success: false,
-          message: err.message
-        })
+          message: err.message,
+        });
       }
 
       return res.status(200).json({
         success: false,
-        message: err
-      })
+        message: err,
+      });
     }
 
     return res.json({
       success: true,
       message: 'You have successfully logged in!',
       token,
-      user: userData
-    })
-  })(req, res, next)
-})
+      user: userData,
+    });
+  })(req, res, next);
+});
 
 router.post('/register', (req, res, next) => {
-  const validationResult = validateRegisterData(req.body)
+  const validationResult = validateRegisterData(req.body);
   if (!validationResult.success) {
     return res.status(200).json({
       success: false,
       message: validationResult.message,
-      errors: validationResult.errors
-    })
+      errors: validationResult.errors,
+    });
   }
 
   return passport.authenticate('local-signup', (err) => {
     if (err) {
-      console.log(err)
-      return res.status(200).json({
+      console.log(err),
+      res.status(200).json({
         success: false,
-        message: err
-      })
+        message: err,
+      });
     }
 
     return res.status(200).json({
       success: true,
-      message: 'You have successfully signed up! Now you should be able to log in.'
-    })
-  })(req, res, next)
-})
+      message: 'You have successfully signed up!' +
+        'Now you should be able to log in.',
+    });
+  })(req, res, next);
+});
 
 router.get('/getUserById/:id', (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
   // console.log(id)
 
-  User.findById(id).then(user => {
+  User.findById(id).then((user) => {
     const userData = {
       username: user.username,
       fullName: user.firstName + ' ' + user.lastName,
       roles: user.roles,
-      registrationDate: user.dateRegistered
-    }
-    SolvedQuiz.find({ solvedBy: id }).then(quizzes => {
-      userData.solvedQuizzes = quizzes
+      registrationDate: user.dateRegistered,
+    };
+    SolvedQuiz.find({ solvedBy: id }).then((quizzes) => {
+      userData.solvedQuizzes = quizzes;
       res.status(200).json({
         success: true,
         message: `User data loaded!`,
-        userData
-      })
-    })
-  }).catch(err => {
-    console.log(err)
+        userData,
+      });
+    });
+  }).catch((err) => {
+    console.log(err);
     res.status(500).json({
       success: false,
       message: 'Cannot find quiz with id ' + id,
-      errors: err
-    })
-  })
-})
+      errors: err,
+    });
+  });
+});
 
-module.exports = router
+module.exports = router;
