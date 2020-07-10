@@ -7,15 +7,13 @@ module.exports = {
   development: {
     rootPath: rootPath,
     // Used only for development
-    db: 'mongodb://admin:GFnZoiH6W7bD@ds215759.mlab.com:15759/quiz-learner-db',
-    // db: 'mongodb://gyoko:GFnZoiH6W7bD@ds149138.mlab.com:49138/net-shop'
+    db: 'mongodb://admin:admin123@ds111425.mlab.com:11425/quiz-learner-dev',
     port: port,
   },
   production: {
     port: process.env.PORT,
     // Used only for development
-    db: 'mongodb://admin:GFnZoiH6W7bD@ds215759.mlab.com:15759/quiz-learner-db',
-    // db: 'mongodb://gyoko:GFnZoiH6W7bD@ds149138.mlab.com:49138/net-shop'
+    db: 'mongodb://admin:admin123@ds111425.mlab.com:11425/quiz-learner-dev',
   },
   staging: {
   },

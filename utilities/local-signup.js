@@ -22,7 +22,8 @@ module.exports = new PassportLocalStrategy({
       .then((user) => {
         console.log(`Username successfully registered ${user.username}`);
         return done(null);
-      }).catch(() => {
+      }).catch((err) => {
+        console.log(err);
         return done('Username already exists!');
       });
 });
