@@ -9,20 +9,29 @@ function validateRegisterData(data) {
   const errors = {};
   let isValid = true;
   let message = '';
-  if (!data || typeof data.password !== 'string' ||
-      data.password.trim().length < 4) {
+  if (
+    !data ||
+    typeof data.password !== 'string' ||
+    data.password.trim().length < 4
+  ) {
     isValid = false;
     errors.password = 'Password must have at least 4 characters.';
   }
 
-  if (!data || typeof data.firstName !== 'string' ||
-      data.firstName.trim().length === 0) {
+  if (
+    !data ||
+    typeof data.firstName !== 'string' ||
+    data.firstName.trim().length === 0
+  ) {
     isValid = false;
     errors.name = 'Please provide your name.';
   }
 
-  if (!data || typeof data.lastName !== 'string' ||
-      data.lastName.trim().length === 0) {
+  if (
+    !data ||
+    typeof data.lastName !== 'string' ||
+    data.lastName.trim().length === 0
+  ) {
     isValid = false;
     errors.name = 'Please provide your name.';
   }
@@ -43,14 +52,20 @@ function validateLoginData(data) {
   let isFormValid = true;
   let message = '';
 
-  if (!data || typeof data.username !== 'string' ||
-    data.username.trim().length === 0) {
+  if (
+    !data ||
+    typeof data.username !== 'string' ||
+    data.username.trim().length === 0
+  ) {
     isFormValid = false;
     errors.username = 'Please provide your username.';
   }
 
-  if (!data || typeof data.password !== 'string' ||
-    data.password.trim().length === 0) {
+  if (
+    !data ||
+    typeof data.password !== 'string' ||
+    data.password.trim().length === 0
+  ) {
     isFormValid = false;
     errors.password = 'Please provide your password.';
   }
@@ -113,15 +128,16 @@ router.post('/register', (req, res, next) => {
   return passport.authenticate('local-signup', (err) => {
     if (err) {
       console.log(err),
-      res.status(200).json({
-        success: false,
-        message: err,
-      });
+        res.status(200).json({
+          success: false,
+          message: err,
+        });
     }
 
     return res.status(200).json({
       success: true,
-      message: 'You have successfully signed up!' +
+      message:
+        'You have successfully signed up!' +
         'Now you should be able to log in.',
     });
   })(req, res, next);
@@ -131,29 +147,31 @@ router.get('/getUserById/:id', (req, res) => {
   const id = req.params.id;
   // console.log(id)
 
-  User.findById(id).then((user) => {
-    const userData = {
-      username: user.username,
-      fullName: user.firstName + ' ' + user.lastName,
-      roles: user.roles,
-      registrationDate: user.dateRegistered,
-    };
-    SolvedQuiz.find({ solvedBy: id }).then((quizzes) => {
-      userData.solvedQuizzes = quizzes;
-      res.status(200).json({
-        success: true,
-        message: `User data loaded!`,
-        userData,
+  User.findById(id)
+    .then((user) => {
+      const userData = {
+        username: user.username,
+        fullName: user.firstName + ' ' + user.lastName,
+        roles: user.roles,
+        registrationDate: user.dateRegistered,
+      };
+      SolvedQuiz.find({ solvedBy: id }).then((quizzes) => {
+        userData.solvedQuizzes = quizzes;
+        res.status(200).json({
+          success: true,
+          message: `User data loaded!`,
+          userData,
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        message: 'Cannot find quiz with id ' + id,
+        errors: err,
       });
     });
-  }).catch((err) => {
-    console.log(err);
-    res.status(500).json({
-      success: false,
-      message: 'Cannot find quiz with id ' + id,
-      errors: err,
-    });
-  });
 });
 
 module.exports = router;

@@ -11,18 +11,25 @@ const quizSchema = mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  creatorUsername: {
+    type: mongoose.Schema.Types.String,
+  },
   description: {
     type: mongoose.Schema.Types.String,
     required: true,
   },
-  questions: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'Question',
-  }],
-  solved: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'SolvedQuiz',
-  }],
+  questions: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Question',
+    },
+  ],
+  solved: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'SolvedQuiz',
+    },
+  ],
   averageScore: { type: mongoose.Schema.Types.Number, default: 0 },
   // category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
   dateCreated: { type: mongoose.Schema.Types.Date, default: Date.now },

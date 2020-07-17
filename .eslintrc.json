@@ -19,6 +19,8 @@
     "rules": {
         "semi": "error",
         "object-curly-spacing": "off",
-        "require-jsdoc": "off"
+        "require-jsdoc": "off",
+        "indent": "off",
+        "space-before-function-paren": "off"
     }
 }

@@ -27,22 +27,29 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.String,
     required: getRequiredPropMsg('Last Name'),
   },
-  roles: [{
-    type: mongoose.Schema.Types.String,
-  }],
+  roles: [
+    {
+      type: mongoose.Schema.Types.String,
+    },
+  ],
   rating: {
     type: mongoose.Schema.Types.Number,
     default: 0,
     min: 0,
     max: 10,
   },
-  solvedQuizzes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'SolvedQuiz',
-  }],
-  addedQuizzes: [{
-    type: mongoose.Schema.Types.ObjectId, ref: 'Quiz',
-  }],
+  solvedQuizzes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'SolvedQuiz',
+    },
+  ],
+  addedQuizzes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Quiz',
+    },
+  ],
   dateRegistered: {
     type: mongoose.Schema.Types.Date,
     default: Date.now,
@@ -50,7 +57,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.method({
-  authenticate: function(password) {
+  authenticate: function (password) {
     const newPass = encryption.generateHashedPassword(this.salt, password);
 
     if (newPass === this.hashedPass) {

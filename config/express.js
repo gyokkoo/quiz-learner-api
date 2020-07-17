@@ -7,8 +7,11 @@ const logger = require('morgan');
 
 module.exports = (app) => {
   app.use(cookieParser());
-  app.use(bodyParser.urlencoded({
-    extended: false}));
+  app.use(
+    bodyParser.urlencoded({
+      extended: false,
+    })
+  );
   app.use(bodyParser.json());
 
   app.use(passport.initialize());
