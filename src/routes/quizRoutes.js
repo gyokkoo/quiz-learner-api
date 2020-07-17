@@ -1,11 +1,11 @@
-const express = require('express');
-const authCheck = require('../middleware/auth-check');
-const Quiz = require('../models/Quiz');
-const Question = require('../models/Question');
-const SolvedQuiz = require('../models/SolvedQuiz');
-const User = require('../models/User');
-const helpers = require('./helpers');
-const router = new express.Router();
+import { Router } from 'express';
+import authCheck from '../middleware/auth-check';
+import Quiz from '../models/Quiz';
+import Question from '../models/Question';
+import SolvedQuiz from '../models/SolvedQuiz';
+import User from '../models/User';
+import { getScore } from './helpers';
+const router = new Router();
 
 /**
  * Validate quiz data
@@ -254,9 +254,7 @@ router.post('/addSolvedQuiz', (req, res) => {
     dateSolved: new Date(),
   };
   // TODO: validate!
-  helpers.getScore(quizData.questions, quizData.answers, function (
-    scoreResult
-  ) {
+  getScore(quizData.questions, quizData.answers, function (scoreResult) {
     SolvedQuiz.create(solvedQuiz)
       .then((quiz) => {
         res.status(200).json({
@@ -432,4 +430,4 @@ router.get('/getMostRecent', (req, res) => {
     });
 });
 
-module.exports = router;
+export default router;

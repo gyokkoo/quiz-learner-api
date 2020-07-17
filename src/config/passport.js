@@ -1,8 +1,8 @@
-const passport = require('passport');
-const localSignupStrategy = require('../utilities/local-signup');
-const localLoginStrategy = require('../utilities/local-login');
+import { use } from 'passport';
+import localSignupStrategy from '../utilities/local-signup';
+import localLoginStrategy from '../utilities/local-login';
 
-module.exports = () => {
-  passport.use('local-signup', localSignupStrategy);
-  passport.use('local-login', localLoginStrategy);
+export default () => {
+  use('local-signup', localSignupStrategy);
+  use('local-login', localLoginStrategy);
 };

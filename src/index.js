@@ -1,16 +1,17 @@
-const express = require('express');
+import express from 'express';
+import userRoutes from './routes/userRoutes';
+import quizRoutes from './routes/quizRoutes';
+
 const env = process.env.NODE_ENV || 'development';
-const userRoutes = require('./routes/userRoutes');
-const quizRoutes = require('./routes/quizRoutes');
 
 // Setup MongoDB connection
 const settings = require('./config/settings')[env];
-require('./config/database')(settings);
+require('./config/database').default(settings);
 
 // Setup express
 const app = express();
-require('./config/express')(app);
-require('./config/passport')();
+require('./config/express').default(app);
+require('./config/passport').default();
 
 // Import server-routes
 // require('./config/routes')(app)

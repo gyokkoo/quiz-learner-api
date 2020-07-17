@@ -1,9 +1,7 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+import { verify } from 'jsonwebtoken';
+import User from '../models/User';
 
-module.exports = (req, res, next) => {
-  console.log('In autch-check.js');
-
+export default (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(401).end();
   }
@@ -13,7 +11,7 @@ module.exports = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
 
   // decode the token using a secret key-phrase
-  return jwt.verify(token, 'c9ffcf6087a', (err, decoded) => {
+  return verify(token, 'c9ffcf6087a', (err, decoded) => {
     // the 401 code is for unauthorized status
     if (err) {
       return res.status(401).end();
