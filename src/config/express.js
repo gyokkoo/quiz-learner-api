@@ -1,6 +1,6 @@
-import { static } from 'express';
 import { urlencoded, json } from 'body-parser';
 import { initialize } from 'passport';
+import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
@@ -19,7 +19,7 @@ export default (app) => {
 
   app.use(logger('dev'));
 
-  app.use(static('public'));
+  app.use(express.static('public'));
 
   console.log('Express is ready!');
 };

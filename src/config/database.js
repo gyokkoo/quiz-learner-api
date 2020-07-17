@@ -1,8 +1,5 @@
-import { Promise, connect, connection } from 'mongoose';
+import { connect, connection } from 'mongoose';
 import { seedAdminUser } from '../models/User';
-
-// Mongoose promise is deprecated so use node.js global promise
-Promise = global.Promise;
 
 export default (settings) => {
   connect(settings.db);
