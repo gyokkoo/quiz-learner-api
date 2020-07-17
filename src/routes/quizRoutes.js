@@ -165,13 +165,11 @@ router.post('/addQuestion', authCheck, (req, res) => {
 });
 
 router.get('/getAllQuizzes', (req, res) => {
-  console.log(req);
   Quiz.find()
     .then((quizzes) => {
-      // console.log(quizzes)
       res.status(200).json({
         success: true,
-        message: `Quizzes loaded!`,
+        message: 'Quizzes loaded!',
         data: quizzes,
       });
     })
@@ -386,6 +384,7 @@ router.delete('/deleteQuiz/:id', authCheck, (req, res) => {
 });
 
 router.get('/getMostRecent', (req, res) => {
+  console.log("ivan !");
   Quiz.find()
     .sort({ dataCreated: -1 })
     .limit(3)
