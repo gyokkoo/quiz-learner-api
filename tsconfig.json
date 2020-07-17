@@ -3,6 +3,8 @@
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"allowJs": true,
+		"strict": true,
+		"watch": true,
 		"noImplicitAny": true,
 		"moduleResolution": "node",
 		"lib": [
@@ -21,7 +23,7 @@
 			"node_modules/@types",
 			"src/types"
 		],
-		"outDir": "./build"
+		"outDir": "./build",
 	},
 	"include": [
 		"./src/**/*",
@@ -30,5 +32,6 @@
 	],
 	"exclude": [
 		"node_modules"
-	]
+	],
+	"compileOnSave": true
 }

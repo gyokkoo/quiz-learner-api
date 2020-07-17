@@ -384,7 +384,6 @@ router.delete('/deleteQuiz/:id', authCheck, (req, res) => {
 });
 
 router.get('/getMostRecent', (req, res) => {
-  console.log("ivan !");
   Quiz.find()
     .sort({ dataCreated: -1 })
     .limit(3)
