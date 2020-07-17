@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc & node ./src/index.js",
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
     "dev": "concurrently \"tsc -w\" \"nodemon ./build/index.js\"",
     "watch": "tsc & nodemon ./src/index.js",
     "lint": "eslint . & echo 'lint complete'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watch --verbose false",
+    "coverage": "jest --coverage"
   },
   "repository": "https://github.com/Nezhdetov/quiz-learner.git",
   "author": "Gyokan Syuleymanov",
@@ -18,7 +19,6 @@
     "node": "8.9.4"
   },
   "dependencies": {
-    "@types/node": "^14.0.23",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
@@ -35,11 +35,18 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.7",
+    "@types/jest": "^26.0.4",
     "@types/jsonwebtoken": "^8.5.0",
+    "@types/node": "^14.0.23",
+    "@types/passport": "^1.0.4",
     "concurrently": "^5.2.0",
     "eslint": "^6.4.0",
     "eslint-config-google": "^0.14.0",
+    "jest": "^26.1.0",
     "nodemon": "^1.19.4",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.1.3",
+    "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   }
 }
