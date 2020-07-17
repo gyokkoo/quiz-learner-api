@@ -1,8 +1,8 @@
-const PassportLocalStrategy = require('passport-local').Strategy;
-const encryption = require('./encryption');
+import { Strategy as PassportLocalStrategy } from 'passport-local';
+import { generateSalt, generateHashedPassword } from './encryption';
 const User = require('mongoose').model('User');
 
-module.exports = new PassportLocalStrategy(
+export default new PassportLocalStrategy(
   {
     usernameField: 'username',
     passwordField: 'password',
@@ -10,10 +10,10 @@ module.exports = new PassportLocalStrategy(
     passReqToCallback: true,
   },
   (req, username, password, done) => {
-    const salt = encryption.generateSalt();
+    const salt = generateSalt();
     const user = {
       username: username.trim(),
-      hashedPass: encryption.generateHashedPassword(salt, password.trim()),
+      hashedPass: generateHashedPassword(salt, password.trim()),
       salt: salt,
       firstName: req.body.firstName.trim(),
       lastName: req.body.lastName.trim(),

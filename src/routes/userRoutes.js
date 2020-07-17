@@ -1,9 +1,9 @@
-const express = require('express');
-const passport = require('passport');
-const User = require('../models/User');
-const SolvedQuiz = require('../models/SolvedQuiz');
+import { Router } from 'express';
+import { authenticate } from 'passport';
+import User from '../models/User';
+import SolvedQuiz from '../models/SolvedQuiz';
 
-const router = new express.Router();
+const router = new Router();
 
 function validateRegisterData(data) {
   const errors = {};
@@ -91,7 +91,7 @@ router.post('/login', (req, res, next) => {
     });
   }
 
-  return passport.authenticate('local-login', (err, token, userData) => {
+  return authenticate('local-login', (err, token, userData) => {
     if (err) {
       if (err.name === 'IncorrectCredentialsError') {
         return res.status(200).json({
@@ -125,7 +125,7 @@ router.post('/register', (req, res, next) => {
     });
   }
 
-  return passport.authenticate('local-signup', (err) => {
+  return authenticate('local-signup', (err) => {
     if (err) {
       console.log(err),
         res.status(200).json({
@@ -174,4 +174,4 @@ router.get('/getUserById/:id', (req, res) => {
     });
 });
 
-module.exports = router;
+export default router;

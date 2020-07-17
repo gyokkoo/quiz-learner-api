@@ -1,64 +1,64 @@
-const mongoose = require('mongoose');
-const encryption = require('../utilities/encryption');
+import { Schema, model } from 'mongoose';
+import { generateHashedPassword, generateSalt } from '../utilities/encryption';
 
 function getRequiredPropMsg(prop) {
   return `${prop} is required!`;
 }
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   username: {
-    type: mongoose.Schema.Types.String,
+    type: Schema.Types.String,
     required: getRequiredPropMsg('Username'),
     unique: true,
   },
   hashedPass: {
-    type: mongoose.Schema.Types.String,
+    type: Schema.Types.String,
     required: getRequiredPropMsg('Password'),
   },
   salt: {
-    type: mongoose.Schema.Types.String,
+    type: Schema.Types.String,
     required: true,
   },
   firstName: {
-    type: mongoose.Schema.Types.String,
+    type: Schema.Types.String,
     required: getRequiredPropMsg('First Name'),
   },
   lastName: {
-    type: mongoose.Schema.Types.String,
+    type: Schema.Types.String,
     required: getRequiredPropMsg('Last Name'),
   },
   roles: [
     {
-      type: mongoose.Schema.Types.String,
+      type: Schema.Types.String,
     },
   ],
   rating: {
-    type: mongoose.Schema.Types.Number,
+    type: Schema.Types.Number,
     default: 0,
     min: 0,
     max: 10,
   },
   solvedQuizzes: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'SolvedQuiz',
     },
   ],
   addedQuizzes: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Quiz',
     },
   ],
   dateRegistered: {
-    type: mongoose.Schema.Types.Date,
+    type: Schema.Types.Date,
     default: Date.now,
   },
 });
 
 userSchema.method({
   authenticate: function (password) {
-    const newPass = encryption.generateHashedPassword(this.salt, password);
+    const newPass = generateHashedPassword(this.salt, password);
 
     if (newPass === this.hashedPass) {
       return true;
@@ -69,18 +69,18 @@ userSchema.method({
   },
 });
 
-const User = mongoose.model('User', userSchema);
+const User = model('User', userSchema);
 
-module.exports = User;
+export default User;
 
-module.exports.seedAdminUser = () => {
+export function seedAdminUser() {
   User.find({ username: 'Admin' }).then((users) => {
     if (users.length > 0) {
       return;
     }
 
-    const salt = encryption.generateSalt();
-    const hashedPass = encryption.generateHashedPassword(salt, 'T3stAdm!nPass');
+    const salt = generateSalt();
+    const hashedPass = generateHashedPassword(salt, 'T3stAdm!nPass');
 
     User.create({
       username: 'Admin',
@@ -94,4 +94,4 @@ module.exports.seedAdminUser = () => {
       console.log(`Admin: ${admin.username} seeded successfully`);
     });
   });
-};
+}

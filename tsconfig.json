@@ -1,0 +1,37 @@
+{
+	"compilerOptions": {
+		"sourceMap": true,
+		"esModuleInterop": true,
+		"allowJs": true,
+		"strict": true,
+		"watch": true,
+		"noImplicitAny": true,
+		"moduleResolution": "node",
+		"lib": [
+			"es2018"
+		],
+		"module": "commonjs",
+		"target": "es2018",
+		"baseUrl": ".",
+		"paths": {
+			"*": [
+				"node_modules/*",
+				"src/types/*"
+			]
+		},
+		"typeRoots": [
+			"node_modules/@types",
+			"src/types"
+		],
+		"outDir": "./build",
+	},
+	"include": [
+		"./src/**/*",
+		"jest.config.js",
+		"config"
+	],
+	"exclude": [
+		"node_modules"
+	],
+	"compileOnSave": true
+}
