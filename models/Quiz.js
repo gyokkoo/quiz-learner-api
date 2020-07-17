@@ -11,6 +11,9 @@ const quizSchema = mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  creatorUsername: {
+    type: mongoose.Schema.Types.String,
+  },
   description: {
     type: mongoose.Schema.Types.String,
     required: true,

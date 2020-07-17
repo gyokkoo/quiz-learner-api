@@ -49,6 +49,7 @@ router.post('/create', authCheck, (req, res) => {
     name: quizData.title.trim(),
     description: quizData.description.trim(),
     creatorId: quizData.userId,
+    creatorUsername: quizData.creator,
   };
 
   Quiz.create(quizToAdd).then((quiz) => {
