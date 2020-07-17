@@ -21,11 +21,11 @@ export default new PassportLocalStrategy(
     };
 
     User.create(user)
-      .then((user) => {
+      .then((user: any) => {
         console.log(`Username successfully registered ${user.username}`);
         return done(null);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log(err);
         return done('Username already exists!');
       });

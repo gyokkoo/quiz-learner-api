@@ -1,13 +1,13 @@
 import { connect, connection } from 'mongoose';
 import { seedAdminUser } from '../models/User';
 
-export default (settings) => {
+export default (settings: any) => {
   connect(settings.db);
   console.log(`Trying to connect to ${settings.db}`);
 
   const db = connection;
 
-  db.once('open', (err) => {
+  db.once('open', (err: any) => {
     if (err) {
       throw err;
     }
@@ -16,7 +16,7 @@ export default (settings) => {
     console.log('MongoDb is ready!');
   });
 
-  db.on('error', (err) => {
+  db.on('error', (err: any) => {
     console.log(`Database error: ${err}`);
   });
 };

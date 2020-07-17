@@ -3,7 +3,7 @@
   "restartable": "rs",
   "ignore": [".git", "node_modules/**/node_modules"],
   "ext": "ts",
-  "exec": "ts-node ./src/index.js",
+  "exec": "ts-node ./src/index.ts",
   "env": {
     "NODE_ENV": "development"
   },

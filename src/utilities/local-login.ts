@@ -1,8 +1,10 @@
 import { sign } from 'jsonwebtoken';
-const User = require('mongoose').model('User');
 import { Strategy as PassportLocalStrategy } from 'passport-local';
+import { Request } from 'express';
 
-const secretKey = 'c9ffcf6087a';
+const User = require('mongoose').model('User');
+
+const secretKey: string = 'c9ffcf6087a';
 
 export default new PassportLocalStrategy(
   {
@@ -11,9 +13,9 @@ export default new PassportLocalStrategy(
     session: false,
     passReqToCallback: true,
   },
-  (req, inputUsername, password, done) => {
+  (req: Request, inputUsername: string, password: string, done: Function) => {
     User.findOne({ username: inputUsername })
-      .then((user) => {
+      .then((user: any) => {
         if (!user || !user.authenticate(password)) {
           return done('Incorect username or password');
         }
@@ -34,7 +36,7 @@ export default new PassportLocalStrategy(
 
         return done(null, token, data);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         return done(err);
       });
   }
