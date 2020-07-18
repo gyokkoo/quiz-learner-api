@@ -40,7 +40,7 @@ describe('quiz.get-all', () => {
     it('should return 200 with quizzes found', async () => {
       const expectedResult: any = [
         {
-          id: 'someId',
+          _id: 'someId',
           averageScore: 0,
           creatorId: 'someCreatorId',
           creatorUsername: 'someCreatorUsername',
