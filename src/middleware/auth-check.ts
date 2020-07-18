@@ -32,7 +32,6 @@ export default (req: Request, res: Response, next: NextFunction) => {
     token,
     secretKey,
     (err: VerifyErrors | null, decoded: object | undefined) => {
-      console.log('Verifying in auth-check.ts middleware');
       if (err) {
         // 401 code is for unauthorized status.
         return res.status(403).end();
