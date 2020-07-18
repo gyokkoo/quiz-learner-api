@@ -1,11 +1,11 @@
 import { Schema, model } from 'mongoose';
 import { generateHashedPassword, generateSalt } from '../utilities/encryption';
 
-function getRequiredPropMsg(prop) {
+function getRequiredPropMsg(prop: string): string {
   return `${prop} is required!`;
 }
 
-const userSchema = new Schema({
+const userSchema: Schema = new Schema({
   username: {
     type: Schema.Types.String,
     required: getRequiredPropMsg('Username'),
@@ -57,7 +57,7 @@ const userSchema = new Schema({
 });
 
 userSchema.method({
-  authenticate: function (password) {
+  authenticate: function (password: string) {
     const newPass = generateHashedPassword(this.salt, password);
 
     if (newPass === this.hashedPass) {
@@ -69,9 +69,7 @@ userSchema.method({
   },
 });
 
-const User = model('User', userSchema);
-
-export default User;
+export const User = model('User', userSchema);
 
 export function seedAdminUser() {
   User.find({ username: 'Admin' }).then((users) => {
@@ -91,7 +89,7 @@ export function seedAdminUser() {
       age: 19,
       roles: ['Admin'],
     }).then((admin) => {
-      console.log(`Admin: ${admin.username} seeded successfully`);
+      console.log(`Admin user seeded successfully`);
     });
   });
 }

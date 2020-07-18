@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 // eslint-disable-next-line new-cap
-const solvedQuizSchema = Schema({
+const solvedQuizSchema = new Schema({
   quizId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -17,7 +17,7 @@ const solvedQuizSchema = Schema({
   },
   questions: [
     {
-      type: Schema.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Question',
     },
   ],
@@ -26,6 +26,4 @@ const solvedQuizSchema = Schema({
   dateSolved: { type: Schema.Types.Date, default: Date.now },
 });
 
-const SolvedQuiz = model('SolvedQuiz', solvedQuizSchema);
-
-export default SolvedQuiz;
+export const SolvedQuiz = model('SolvedQuiz', solvedQuizSchema);

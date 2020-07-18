@@ -1,4 +1,4 @@
-import Question from '../models/Question';
+import { Question } from '../models/Question';
 
 export function getScore(questionsId, answers, _callback) {
   const allQuestions = questionsId.length;
