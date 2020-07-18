@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 // eslint-disable-next-line new-cap
-const questionSchema = Schema({
+const questionSchema: Schema = new Schema({
   quizId: {
     type: Schema.Types.String,
     required: true,
@@ -31,6 +31,4 @@ const questionSchema = Schema({
   },
 });
 
-const Question = model('Question', questionSchema);
-
-export default Question;
+export const Question = model('Question', questionSchema);

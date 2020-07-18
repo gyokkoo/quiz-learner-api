@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import authCheck from '../middleware/auth-check';
 import { Quiz } from '../models/Quiz';
-import Question from '../models/Question';
-import SolvedQuiz from '../models/SolvedQuiz';
-import User from '../models/User';
+import { Question } from '../models/Question';
+import { SolvedQuiz } from '../models/SolvedQuiz';
+import { User } from '../models/User';
 import { getScore } from './helpers';
+import authCheck from '../middleware/auth-check';
+
 const router = new Router();
 
 /**
@@ -163,25 +164,6 @@ router.post('/addQuestion', authCheck, (req, res) => {
       });
     });
 });
-
-// router.get('/getAllQuizzes', (req, res) => {
-//   Quiz.find()
-//     .then((quizzes) => {
-//       res.status(200).json({
-//         success: true,
-//         message: 'Quizzes loaded!',
-//         data: quizzes,
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(400).json({
-//         success: false,
-//         message: 'No Quizzes. Care to add some?',
-//         error: 'Quiz error',
-//       });
-//     });
-// });
 
 router.get('/getQuestions/:id', (req, res) => {
   const id = req.params.id;
