@@ -12,7 +12,8 @@ export function getQuizById(req: Request, res: Response): Promise<any> {
         .then((user: any) => {
           Question.find({ quizId }).then((allQuestions) => {
             const creator = user.username;
-            res.status(200).json({
+            res.status(200);
+            res.json({
               success: true,
               message: `Questions loaded!`,
               allQuestions,
@@ -22,14 +23,16 @@ export function getQuizById(req: Request, res: Response): Promise<any> {
           });
         })
         .catch((err) => {
-          res.status(500).json({
+          res.status(500);
+          res.json({
             success: false,
             message: 'Cannot find user with id ' + quiz.creatorId,
           });
         });
     })
     .catch((err) => {
-      res.status(500).json({
+      res.status(500);
+      res.json({
         success: false,
         message: 'Cannot find quiz with id ' + quizId,
       });
