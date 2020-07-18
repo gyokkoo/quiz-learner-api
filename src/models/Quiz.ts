@@ -5,7 +5,7 @@ export interface QuizModel extends Document {
   creatorId: string;
   creatorUsername: string;
   description: string;
-  averageScroe: number;
+  averageScore: number;
   dateCreated: Date;
 }
 

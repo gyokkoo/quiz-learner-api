@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc & ts-node ./src/index.ts",
-    "build": "rimraf dist && tsc",
+    "build": "rimraf build && tsc",
     "dev": "concurrently \"tsc -w\" \"nodemon ./build/index.js\"",
     "watch": "tsc & nodemon ./src/index.ts",
     "lint": "eslint . & echo 'lint complete'",
@@ -14,7 +14,7 @@
   },
   "repository": "https://github.com/Nezhdetov/quiz-learner.git",
   "author": "Gyokan Syuleymanov",
-  "license": "FMIsss",
+  "license": "MIT",
   "engines": {
     "node": "14.5.0"
   },

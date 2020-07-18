@@ -8,69 +8,6 @@ import authCheck from '../middleware/auth-check';
 
 const router = new Router();
 
-/**
- * Validate quiz data
- * @param {*} data Quzi data
- * @return {*} response object
- */
-function validateQuizData(data) {
-  const errors = {};
-  let isValid = true;
-  let message = '';
-
-  console.log(data);
-  if (!data || typeof data.title !== 'string' || data.title < 3) {
-    isValid = false;
-    errors.title = 'Title must be more than 2 symbols.';
-  }
-
-  if (!isValid) {
-    message = 'Check the form for errors.';
-  }
-
-  return {
-    success: isValid,
-    message,
-    errors,
-  };
-}
-
-router.post('/create', authCheck, (req, res) => {
-  const quizData = req.body;
-  const validationResult = validateQuizData(quizData);
-  if (!validationResult.success) {
-    return res.status(200).json({
-      success: false,
-      message: validationResult.message,
-      errors: validationResult.errors,
-    });
-  }
-
-  const quizToAdd = {
-    name: quizData.title.trim(),
-    description: quizData.description.trim(),
-    creatorId: quizData.userId,
-    creatorUsername: quizData.creator,
-  };
-
-  Quiz.create(quizToAdd)
-    .then((quiz) => {
-      res.status(200).json({
-        success: true,
-        message: `Quiz ${quiz.name} added!`,
-        quiz,
-      });
-    })
-    .catch((err) => {
-      console.log('Error: ' + err);
-      return res.status(500).json({
-        success: false,
-        message: 'Cannot write the quiz in database',
-        errors: 'Quiz error',
-      });
-    });
-});
-
 router.post('/createQuestion', authCheck, (req, res) => {
   const questionData = req.body;
 
@@ -180,41 +117,6 @@ router.get('/getQuestions/:id', (req, res) => {
         message: `Questions loaded!`,
         questions,
       });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        success: false,
-        message: 'Cannot find quiz with id ' + id,
-        errors: err,
-      });
-    });
-});
-
-router.get('/getQuizById/:id', (req, res) => {
-  const id = req.params.id;
-  Quiz.findById(id)
-    .then((quiz) => {
-      User.findById(quiz.creatorId)
-        .then((user) => {
-          Question.find({ quizId: id }).then((allQuestions) => {
-            const creator = user.username;
-            res.status(200).json({
-              success: true,
-              message: `Questions loaded!`,
-              allQuestions,
-              quiz,
-              creator,
-            });
-          });
-        })
-        .catch((err) => {
-          res.status(500).json({
-            success: false,
-            message: 'Cannot find user with id ' + quiz.create,
-            errors: err,
-          });
-        });
     })
     .catch((err) => {
       console.log(err);
@@ -337,28 +239,6 @@ router.delete('/deleteQuestion/:id', authCheck, (req, res) => {
       success: false,
       message: 'Cannot delete the question in database',
       errors: 'Question error',
-    });
-  });
-});
-
-router.delete('/deleteQuiz/:id', authCheck, (req, res) => {
-  const id = req.params.id;
-  Quiz.findByIdAndRemove(id, function (err, doc) {
-    if (err) {
-      return res.send(500, { error: err });
-    }
-    const questionsId = doc.questions;
-    for (const id of questionsId) {
-      Question.findByIdAndRemove(id, function (err, doc) {
-        if (err) {
-          return res.send(500, { error: err });
-        }
-        console.log(doc._id + ' was removed');
-      });
-    }
-    res.status(200).json({
-      success: true,
-      message: `Quiz removed!`,
     });
   });
 });
