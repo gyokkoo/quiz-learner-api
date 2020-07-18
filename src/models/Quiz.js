@@ -35,6 +35,4 @@ const quizSchema = Schema({
   dateCreated: { type: Schema.Types.Date, default: Date.now },
 });
 
-const Quiz = model('Quiz', quizSchema);
-
-export default Quiz;
+export const Quiz = model('Quiz', quizSchema);
