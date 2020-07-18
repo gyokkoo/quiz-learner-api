@@ -9,7 +9,7 @@
     "dev": "concurrently \"tsc -w\" \"nodemon ./build/index.js\"",
     "watch": "tsc & nodemon ./src/index.ts",
     "lint": "eslint . & echo 'lint complete'",
-    "test": "jest --watch --verbose false",
+    "test": "jest --watch --verbose false --testEnvironment=node",
     "coverage": "jest --coverage"
   },
   "repository": "https://github.com/Nezhdetov/quiz-learner.git",

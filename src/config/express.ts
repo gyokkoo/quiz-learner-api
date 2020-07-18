@@ -1,6 +1,7 @@
 import { urlencoded, json } from 'body-parser';
 import { initialize } from 'passport';
 import { QuizController } from '../controllers/quiz/quiz.controller';
+import { UserController } from '../controllers/user/user.controller';
 
 import express from 'express';
 import cors from 'cors';
@@ -19,6 +20,7 @@ export default (app: any) => {
   );
   app.use(json());
   app.use('/quiz', new QuizController().router);
+  app.use('/auth', new UserController().router);
 
   app.use(initialize());
 

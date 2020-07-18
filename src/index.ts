@@ -1,5 +1,4 @@
 import express from 'express';
-import userRoutes from './routes/userRoutes';
 import quizRoutes from './routes/quizRoutes';
 
 const env = process.env.NODE_ENV || 'development';
@@ -15,7 +14,6 @@ require('./config/passport').default();
 
 // Import server-routes
 // require('./config/routes')(app)
-app.use('/auth', userRoutes);
 app.use('/quiz', quizRoutes);
 
 app.listen(settings.port, () => {
