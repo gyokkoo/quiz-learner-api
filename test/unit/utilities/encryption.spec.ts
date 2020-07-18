@@ -1,4 +1,7 @@
-import { generateSalt, generateHashedPassword } from './encryption';
+import {
+  generateSalt,
+  generateHashedPassword,
+} from '../../../src/utilities/encryption';
 
 describe('encription.ts', () => {
   it('should generate salt with expected length', () => {
@@ -33,8 +36,10 @@ describe('encription.ts', () => {
   });
 
   it('should geenerate diffeerent hash with differeent salt and same password', () => {
-    const saltOne: string = '1y6vlLUJlALVhPQ9jvR89W86c8UQSKuQb+5ebF0CFpaXjIHDa2wx';
-    const saltTwo: string = '2y6vlLUJlALVhPQ9jvR89W86c8UQSKuQb+5ebF0CFpaXjIHDa2wx';
+    const saltOne: string =
+      '1y6vlLUJlALVhPQ9jvR89W86c8UQSKuQb+5ebF0CFpaXjIHDa2wx';
+    const saltTwo: string =
+      '2y6vlLUJlALVhPQ9jvR89W86c8UQSKuQb+5ebF0CFpaXjIHDa2wx';
     const password: string = 'password';
 
     const firstHash: string = generateHashedPassword(saltOne, password);

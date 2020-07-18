@@ -1,4 +1,4 @@
-import authCheck from './auth-check';
+import authCheck from '../../../src/middleware/auth-check';
 
 const authSampleToken: string =
   'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjExYTg4MjkzZTQ5MTU2OWY3OWEwNDkiLCJ1c2VybmFtZSI6Iml2YW5jaG9fMSIsImlhdCI6MTU5NDk5Mjc3Nn0.nEx_BRA5ouunu0c9wFeZm-MAN_X57z4X0bXsoYZU1cQ';

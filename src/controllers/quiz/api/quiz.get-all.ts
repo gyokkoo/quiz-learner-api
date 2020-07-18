@@ -8,24 +8,24 @@ const errorMessage: string = 'Server error! Could not load quizzes!';
 /**
  * Fetch all quizzes in the system.
  */
-export function getAllQuizzes(req: Request, res: Response): void {
-  Quiz.find()
+export function getAllQuizzes(req: Request, res: Response): Promise<any> {
+  return Quiz.find()
     .then((quizzes: QuizModel[]) => {
       let message = sucessMessage;
       if (quizzes.length === 0) {
         message = noQuizzesFoundMessage;
       }
 
-      res.status(200).json({
+      res.status(200);
+      return res.json({
         success: true,
         message: message,
         data: quizzes,
       });
     })
     .catch((err: any) => {
-      console.log(err);
-
-      res.status(500).json({
+      res.status(500);
+      return res.json({
         success: false,
         message: errorMessage,
       });
