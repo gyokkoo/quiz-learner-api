@@ -4,7 +4,7 @@
   "description": "Quiz learner server side project",
   "main": "index.js",
   "scripts": {
-    "start": "tsc & node ./src/index.ts",
+    "start": "tsc & ts-node ./src/index.ts",
     "build": "rimraf dist && tsc",
     "dev": "concurrently \"tsc -w\" \"nodemon ./build/index.js\"",
     "watch": "tsc & nodemon ./src/index.ts",
@@ -14,9 +14,9 @@
   },
   "repository": "https://github.com/Nezhdetov/quiz-learner.git",
   "author": "Gyokan Syuleymanov",
-  "license": "MIT",
+  "license": "FMIsss",
   "engines": {
-    "node": "8.9.4"
+    "node": "14.5.0"
   },
   "dependencies": {
     "body-parser": "^1.18.2",

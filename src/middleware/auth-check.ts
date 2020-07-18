@@ -1,9 +1,5 @@
 import { verify, VerifyErrors } from 'jsonwebtoken';
-<<<<<<< HEAD
-import { Request, Response, NextFunction } from 'express';
-=======
 import { Request, Response, NextFunction, request } from 'express';
->>>>>>> typescript-integration
 
 const secretKey: string = 'c9ffcf6087a';
 
@@ -13,17 +9,11 @@ interface UserInfo {
 }
 
 /**
-<<<<<<< HEAD
- * Authorization middleware
- * Check whether the request has authorization header
- 
-=======
  * Authorization middleware function
  * Check whether the request has authorization header
  *
  * Used by express Router
  *
->>>>>>> typescript-integration
  * return 401 if authorization header is not provided
  * return 403 if verification fail
  */

@@ -1,17 +1,10 @@
 import { sign } from 'jsonwebtoken';
-<<<<<<< HEAD:src/utilities/local-login.js
-const User = require('mongoose').model('User');
-import { Strategy as PassportLocalStrategy } from 'passport-local';
-
-const secretKey = 'c9ffcf6087a';
-=======
 import { Strategy as PassportLocalStrategy } from 'passport-local';
 import { Request } from 'express';
 
 const User = require('mongoose').model('User');
 
 const secretKey: string = 'c9ffcf6087a';
->>>>>>> typescript-integration:src/utilities/local-login.ts
 
 export default new PassportLocalStrategy(
   {

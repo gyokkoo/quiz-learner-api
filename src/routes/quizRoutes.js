@@ -94,7 +94,7 @@ router.post('/createQuestion', authCheck, (req, res) => {
           if (err) {
             return res.send(500, { error: err });
           }
-        }
+        },
       );
 
       res.status(200).json({
@@ -145,7 +145,7 @@ router.post('/addQuestion', authCheck, (req, res) => {
           if (err) {
             return res.send(500, { error: err });
           }
-        }
+        },
       );
 
       res.status(200).json({
@@ -317,7 +317,7 @@ router.put('/editQuestion/:id', authCheck, (req, res) => {
   console.log(questionToEdit);
   Question.findByIdAndUpdate(id, questionToEdit, { upsert: true }, function (
     err,
-    doc
+    doc,
   ) {
     if (err) {
       return res.send(500, { error: err });
