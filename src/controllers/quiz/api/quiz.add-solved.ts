@@ -1,12 +1,45 @@
-import { Question } from '../models/Question';
+import { Request, Response } from 'express';
+import { SolvedQuiz } from '../../../models/SolvedQuiz';
+import { Question } from '../../../models//Question';
 
-export function getScore(questionsId, answers, _callback) {
+export function addSolvedQuiz(req: Request, res: Response): any {
+  const quizData = req.body;
+  const solvedQuiz = {
+    quizId: quizData.quizId,
+    solvedBy: quizData.userId,
+    questions: quizData.questions,
+    answers: quizData.answers,
+    dateSolved: new Date(),
+  };
+  // TODO: validate!
+  getScore(quizData.questions, quizData.answers, function (scoreResult: any) {
+    SolvedQuiz.create(solvedQuiz)
+      .then((quiz) => {
+        res.status(200).json({
+          success: true,
+          message: `Solved Quiz added!`,
+          quiz,
+          scoreResult,
+        });
+      })
+      .catch((err) => {
+        console.log('Error: ' + err);
+        return res.status(500).json({
+          success: false,
+          message: 'Cannot write the solved quiz in database',
+          errors: 'Quiz solved error',
+        });
+      });
+  });
+}
+
+function getScore(questionsId: string, answers: any, _callback: any) {
   const allQuestions = questionsId.length;
-  const wrongAnswers = [];
-  const correctAnswers = [];
+  const wrongAnswers: any[] = [];
+  const correctAnswers: any[] = [];
   for (let i = 0; i < allQuestions; i++) {
     Question.findById(questionsId[i])
-      .then((question) => {
+      .then((question: any) => {
         let isCorrect = true;
         for (let j = 0; j < question.correctAnswers.length; j++) {
           if (!question.correctAnswers[j] || !answers[i][j]) {
@@ -19,7 +52,7 @@ export function getScore(questionsId, answers, _callback) {
           }
         }
 
-        const answer = {
+        const answer: any = {
           question: question.question,
           answer: answers[i],
         };
@@ -45,7 +78,7 @@ export function getScore(questionsId, answers, _callback) {
           _callback(result);
         }
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log(err);
       });
   }
