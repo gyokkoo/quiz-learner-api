@@ -1,16 +1,21 @@
-import express from 'express';
+import { App } from './app';
+import bodyParser from 'body-parser';
+import { QuestionController } from './controllers/question/question.controller';
+import { QuizController } from './controllers/quiz/quiz.controller';
+import { UserController } from './controllers/user/user.controller';
+import authCheck from './middleware/auth-check';
 
-const env = process.env.NODE_ENV || 'development';
-
-// Setup MongoDB connection
-const settings = require('./config/settings')[env];
-require('./config/database').default(settings);
-
-// Setup express
-const app = express();
-require('./config/express').default(app);
-require('./config/passport').default();
-
-app.listen(settings.port, () => {
-  console.log(`Node.js server running on port ${settings.port}...`);
+const app = new App({
+  controllers: [
+    new QuestionController(),
+    new QuizController(),
+    new UserController(),
+  ],
+  middleWares: [
+    bodyParser.json(),
+    bodyParser.urlencoded({ extended: true }),
+    authCheck,
+  ],
 });
+
+app.listen();

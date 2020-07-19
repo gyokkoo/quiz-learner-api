@@ -7,14 +7,15 @@ import { getUserById } from './api/user.get';
 
 export class UserController implements ControllerBase {
   public router = express.Router();
+  public base: string = '/auth';
 
   constructor() {
     this.initRoutes();
   }
 
   initRoutes(): void {
-    this.router.post('/login', loginUser);
-    this.router.post('/register', registerUser);
-    this.router.get('/getUserById/:id', getUserById);
+    this.router.post(`${this.base}/login`, loginUser);
+    this.router.post(`${this.base}/register`, registerUser);
+    this.router.get(`${this.base}/getUserById/:id`, getUserById);
   }
 }
