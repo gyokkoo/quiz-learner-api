@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-export interface QuizModel extends Document {
+export interface QuizData {
   name: string;
   creatorId: string;
   creatorUsername: string;
@@ -8,6 +8,8 @@ export interface QuizModel extends Document {
   averageScore: number;
   dateCreated: Date;
 }
+
+export interface QuizModel extends QuizData, Document {}
 
 // eslint-disable-next-line new-cap
 const quizSchema: Schema = new Schema({

@@ -1,27 +1,26 @@
 import { Request, Response } from 'express';
-import { Quiz } from '../../../models/Quiz';
+import { Quiz, QuizData } from '../../../models/Quiz';
 import { ServerResponse } from '../../../interfaces/ServerResponse.interface';
 
 /**
  * Create a quiz in the system.
  */
-export function createQuiz(req: Request, res: Response): any {
+export function createQuiz(req: Request, res: Response): Promise<any> | undefined {
   const quizData = req.body;
   const validationResult = validateQuizData(quizData);
   if (!validationResult.success) {
     res.status(200);
-    return res.json({
-      success: false,
-      message: validationResult.message,
-    });
+    res.json(validationResult);
+    return;
   }
 
-  const quizToAdd: any = {
+  const quizToAdd: QuizData = {
     name: quizData.title.trim(),
     description: quizData.description.trim(),
     creatorId: quizData.userId,
     creatorUsername: quizData.creator,
     averageScore: 0,
+    dateCreated: new Date(),
   };
 
   return Quiz.create(quizToAdd)
@@ -29,14 +28,16 @@ export function createQuiz(req: Request, res: Response): any {
       res.status(200).json({
         success: true,
         message: `Quiz ${quiz.name} added!`,
-        quiz: quiz,
+        data: {
+          quizId: quiz._id,
+        },
       });
     })
     .catch((err) => {
-      console.log(err);
       return res.status(500).json({
         success: false,
         message: 'Cannot write the quiz in database!',
+        data: err,
       });
     });
 }
