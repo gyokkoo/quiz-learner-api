@@ -17,7 +17,6 @@ export class QuestionController implements ControllerBase {
   initRoutes(): void {
     this.router.get('/getQuestions/:id', getQuestion);
     this.router.post('/createQuestion', authCheck, createQuestion);
-    this.router.post('/addQuestion', authCheck, createQuestion);
     this.router.put('/editQuestion/:id', authCheck, editQuestion);
     this.router.delete('/deleteQuestion/:id', authCheck, deleteQuestion);
   }
