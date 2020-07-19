@@ -29,6 +29,7 @@ export function createQuiz(req: Request, res: Response): any {
       res.status(200).json({
         success: true,
         message: `Quiz ${quiz.name} added!`,
+        quiz: quiz,
       });
     })
     .catch((err) => {
