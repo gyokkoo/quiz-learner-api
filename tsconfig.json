@@ -4,7 +4,7 @@
 		"esModuleInterop": true,
 		"allowJs": true,
 		"strict": true,
-		"watch": true,
+		"watch": false,
 		"noImplicitAny": true,
 		"moduleResolution": "node",
 		"lib": [
