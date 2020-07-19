@@ -2,7 +2,7 @@ import { Response, Request } from 'express';
 import { Question } from '../../../models/Question';
 import { Quiz } from '../../../models//Quiz';
 
-export function createQuestion(req: Request, res: Response) {
+export function createQuestion(req: Request, res: Response): Promise<any> {
   const questionData = req.body;
   const questionToAdd = {
     quizId: questionData.quizId,
@@ -15,28 +15,23 @@ export function createQuestion(req: Request, res: Response) {
     .then((question: any) => {
       const quizId = question.quizId;
       const questionId = question._id;
-      Quiz.findByIdAndUpdate(
-        quizId,
-        { $push: { questions: questionId } },
-        { upsert: true },
-        function (err, doc) {
-          if (err) {
-            res.status(500);
-            res.json({
-              success: false,
-              message: 'Could not update question!',
-            });
-            return;
-          }
-        }
-      );
-
-      res.status(200);
-      res.json({
-        success: true,
-        message: `Question ${question.question} added!`,
-        data: question,
-      });
+      Quiz.findByIdAndUpdate(quizId, { $push: { questions: questionId } }, { upsert: true })
+        .then(() => {
+          res.status(200);
+          res.json({
+            success: true,
+            message: `Question ${question.question} added!`,
+            data: question,
+          });
+        })
+        .catch((err) => {
+          res.status(500);
+          res.json({
+            success: false,
+            message: 'Could not update question!',
+            data: err,
+          });
+        });
     })
     .catch((err: any) => {
       res.status(500);
