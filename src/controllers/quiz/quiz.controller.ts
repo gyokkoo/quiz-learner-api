@@ -4,6 +4,7 @@ import { ControllerBase } from '../../interfaces/ControllerBase.interface';
 import authCheck from '../../middleware/auth-check';
 import { getAllQuizzes } from './api/quiz.get-all';
 import { createQuiz } from './api/quiz.create';
+import { editQuiz } from './api/quiz.edit';
 import { deleteQuiz } from './api/quiz.delete';
 import { getQuizById } from './api/quiz.get';
 import { getMostRecent } from './api/quiz.get-recent';
@@ -22,6 +23,7 @@ export class QuizController implements ControllerBase {
     this.router.get(`${this.base}/getQuizById/:id`, getQuizById);
     this.router.get(`${this.base}/getMostRecent`, getMostRecent);
     this.router.post(`${this.base}/create`, authCheck, createQuiz);
+    this.router.post(`${this.base}/edit`, authCheck, editQuiz);
     this.router.post(`${this.base}/addSolvedQuiz`, authCheck, addSolvedQuiz);
     this.router.delete(`${this.base}/deleteQuiz/:id`, authCheck, deleteQuiz);
   }
