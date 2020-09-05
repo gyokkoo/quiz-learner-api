@@ -53,9 +53,9 @@ describe('quiz.get', () => {
 
       expect(statusCode).toEqual(200);
       expect(result.success).toEqual(true);
-      expect(result.allQuestions.length).toEqual(1);
+      expect(result.data.questions.length).toEqual(1);
       expect(result.message).toEqual(message);
-      expect(result.creator).toEqual(getQuizByIdResult.creatorUsername);
+      expect(result.data.creatorUsername).toEqual(getQuizByIdResult.creatorUsername);
     });
 
     it('should return 500 if quiz with id not found', async () => {
