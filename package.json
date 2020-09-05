@@ -46,7 +46,7 @@
     "@types/passport": "^1.0.4",
     "@types/passport-local": "^1.0.33",
     "concurrently": "^5.2.0",
-    "eslint": "^6.4.0",
+    "eslint": "^5.16.0",
     "eslint-config-google": "^0.14.0",
     "jest": "^26.1.0",
     "nodemon": "^1.19.4",
